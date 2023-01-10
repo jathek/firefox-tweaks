@@ -24,16 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof favicon != "undefined" && favicon != null) {
     const faviconNodeList = document.querySelectorAll('link[sizes]:not([sizes="16x16"],[rel^="apple-touch"])');
     const faviconArray = Array.from(faviconNodeList);
-    const sortedfaviconArray = faviconArray.sort(sorter);
+    const sortedFaviconArray = faviconArray.sort(sorter);
     function sorter(a, b) {
       return parseInt(a.getAttribute("sizes")) - parseInt(b.getAttribute("sizes"));
     }
     // push original favicon in case faviconArray was empty
-    sortedfaviconArray.push(favicon);
-    // console.log(sortedfaviconArray);
+    sortedFaviconArray.push(favicon);
+    // console.log(sortedFaviconArray);
     // create newFaviconAttr object using attributes of first (hopefully smallest) item in faviconArray
     let newFaviconAttr = {};
-    for (const attr of sortedfaviconArray[0].attributes) {
+    for (const attr of sortedFaviconArray[0].attributes) {
       newFaviconAttr[attr.name] = attr.value;
     }
     // add custom attributes (overwrite size with "16x16" to force usage for lower resolutions)
