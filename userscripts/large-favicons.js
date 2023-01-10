@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Large Favicons
 // @namespace    https://github.com/jathek/firefox-tweaks
-// @version      2022.10.28
+// @version      2023.1.9
 // @description  replace 16x16 favicons with larger favicons
 // @author       jathek
 // @match        *://*/*
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // use GM_addElement to make it obvious if favicon was modified
     GM_addElement(document.querySelector("head"), "link", newFaviconAttr);
     window.addEventListener("load", () => {
-      console.log(`"Large Favicons" userscript set this favicon: ${JSON.stringify(newFaviconAttr)}`);
+      console.log('"Large Favicons" userscript set this favicon:', newFaviconAttr);
     });
   } else {
     console.log('"Large Favicons" userscript could not find a favicon.');
