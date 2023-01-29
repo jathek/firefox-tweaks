@@ -56,19 +56,15 @@
     margin: 1px 4px 12px 3px;
     padding-bottom: 0px;
   }
-  .Tab .body::before,
-  .Tab .flash-fx {
+  .Tab .body {
     top: 2px !important;
     left: 4px !important;
     width: calc(100% - 8px);
     height: calc(100% - 4px);
   }
-  .Tab[data-pin="true"] .body::before,
-  .Tab[data-pin="true"] .flash-fx {
-    top: 2px !important;
-    left: -2px !important;
-    width: calc(100% + 4px) !important;
-    height: calc(100% + 2px) !important;
+  .Tab[data-pin="true"] .body {
+    width: calc(100%);
+    height: calc(100%);
   }
   .Tab .close {
     right: 9px;
@@ -77,18 +73,13 @@
     top: calc((100% - var(--fav-size) - 2px) / 2);
   }
   .Tab .t-box {
+    height: calc(var(--fav-size));
     --close-btn-offset: calc(var(--fav-size) + 2px);
   }
   .Tab .fav {
     width: var(--fav-size);
     height: var(--fav-size);
 /*     background: #FF000055 */
-  }
-  .Tab[data-pin="true"] .fav {
-    margin-top: 6px;
-  }
-  .Tab[data-pin="false"] .fav {
-    margin-left: 10px;
   }
   .Tab .fav > .fav-icon {
     /*     image-rendering: optimizequality; */
@@ -212,10 +203,10 @@
   .Tab .ctx {
     --ctx-height: var(--tabs-height);
     position: absolute !important;
-    top: 2px !important;
-    left: 4px !important;
-    width: calc(100% - 8px) !important;
-    height: calc(100% - 4px) !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
     border-radius: 4px;
     background: var(--color);
     mask: linear-gradient(to top, transparent, #000) top / 100% 5px,

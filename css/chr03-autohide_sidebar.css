@@ -1,0 +1,159 @@
+:root {
+  --autohide-sidebar-collapsed: 47px;
+  --autohide-sidebar-collapsed-border: calc(var(--autohide-sidebar-collapsed) + 1px);
+  --autohide-sidebar-extended: 414px;
+  --autohide-sidebar-toolbar-height: var(--uc-toolbar-height, 65px); /* variable from hide_titlebar.css */
+}
+/* -------------------------- Sidebery Auto-hiding Sidebar ------------------------ */
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
+/*   display: flex;
+  flex-direction: column;
+  overflow: hidden; */
+  position: fixed;
+  right: 1px;
+/*   left: calc(100vw - var(--autohide-sidebar-collapsed)); */
+  width: var(--autohide-sidebar-collapsed) !important;
+  min-width: unset;
+  max-width: unset;
+  z-index: 1;
+  transition: all 0.2s ease !important;
+}
+/* add border and change position to match */
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
+  --autohide-sidebar-collapsed: var(--autohide-sidebar-collapsed-border);
+  border-left: 1px solid color-mix(in srgb, var(--lwt-accent-color) 95%, white);
+}
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]):hover,
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header,
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar {
+  width: var(--autohide-sidebar-extended) !important; /* size of panel while extended */
+/*   left: calc(100vw - var(--autohide-sidebar-extended)); */
+}
+
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] + #sidebar-splitter {
+  margin-inline: 0 1px;
+}
+
+/*
+* Adjust to your settings!
+* You need to subtract the height of the panels above sidebar: nav bar,
+* bookmarks bar, etc. -- whichever is enabled/displayed.
+*
+* You can see which mode (normal, compact or touch) you’re in by going to:
+* Firefox Menu ? Customize… (at the bottom of the screen) ? Density
+*
+*                | normal | compact | touch
+* Menu bar       |  27px  |   27px  |  27px
+* Tab bar        |  33px  |   29px  |  41px
+* Nav bar        |  40px  |   32px  |  40px
+* Bookmarks bar  |  23px  |   21px  |  27px
+*
+* Example:
+* - tab bar is hidden with CSS above (0px)
+* - menu and bookmarks bar are hidden by default (0px)
+* - that only leaves nav bar = 40px in normal mode (default)
+*/
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+  height: calc(100vh - var(--autohide-sidebar-toolbar-height));
+}
+
+/* #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar {
+  flex-grow: 1;
+} */
+
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) ~ #appcontent {
+  margin-right: var(--autohide-sidebar-collapsed);
+}
+
+#main-window:not([extradragspace="true"])[inFullscreen][inDOMFullscreen] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) ~ #appcontent {
+  margin-right: 0 !important;
+}
+
+#main-window:not([extradragspace="true"])[inFullscreen] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+  height: 100vh;
+}
+
+/* hide sidebar header */
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
+/*   display: none; */
+}
+
+/* Sidebery - vars set in main sidebery stylesheet */
+@-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
+{
+  /* --------------------- adjust styles according to sidebar width */
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
+    flex-wrap: nowrap !important;
+    justify-content: center;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  /* -------------- pinned tabs at start instead of center */
+  #root[data-pinned-tabs-position="panel"]:not(:hover) .PinnedTabsBar {
+    justify-content: flex-start;
+  }
+  /*ACTIVE*/
+  /* -------------- set tree indent to 0 */
+  #root[data-tabs-tree-lvl-marks="true"]:not(:hover) {
+    --tabs-indent: 0px;
+  }
+  /* -------------- hide scrollbar */
+  #root[data-pinned-tabs-position="panel"]:not(:hover) .ScrollBox > .scroll-container {
+    overflow: hidden;
+  }
+  /* -------------- move audio icon */
+  #root[data-pinned-tabs-position="panel"]:not(:hover) .Tab[data-pin="false"] .audio {
+    top: calc(var(--fav-size) - 14px);
+    left: calc(var(--fav-size) - 2px) !important;
+  }
+  /* -------------- hide tab title */
+  #root[data-pinned-tabs-position="panel"]:not(:hover) .Tab .title {
+    display: none;
+  }
+  #root[data-tabs-tree-lvl-marks="true"]:not(:hover) .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after {
+    display: none;
+  }
+  /* -------------- hide tree expandos and group counts */
+  /*
+  #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .exp,
+  #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .child-count {
+    display: none;
+  }
+  /* -------------- set group parent favicons to full opacity */
+  /*ACTIVE*/
+  #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .fav > img {
+    opacity: 1;
+  }
+  /* -------------- increase pinned tabs left margin */
+  #root:not(:hover) .Tab[data-pin="true"] {
+    margin-left: 6px;
+  }
+  /* -------------- shrink tab border */
+  #root:not(:hover) .Tab[data-pin="false"] {
+    width: calc(var(--fav-size) + 12px);
+  }
+  #root:not(:hover) .Tab .body::before,
+  #root:not(:hover) .Tab .flash-fx {
+    width: calc(100% + 4px);
+  }
+  /* -------------- shrink container tab border */
+  #root:not(:hover) .Tab .ctx {
+    width: calc(100% + 4px) !important;
+  }
+  /* -------------- shrink new tab button */
+  #root:not(:hover) .TabsPanel .new-tab-btns {
+    width: calc(var(--fav-size) * 2);
+  }
+  /* -------------- isolate settings button and widen it */
+  #root:not(:hover) .NavigationBar.-top .main-items,
+  #root:not(:hover) .NavigationBar.-top div[title="Create snapshot"],
+  #root:not(:hover) .NavigationBar.-top div[title="Search"] {
+    display: none;
+  }
+  #root:not(:hover) .NavigationBar.-top div[title="Settings"] {
+    width: calc(var(--fav-size) * 2 - 4px);
+  }
+  #root:hover .NavigationBar.-top div[title="Settings"] {
+    transition: width var(--d-slow) ease 1s;
+  }
+}
