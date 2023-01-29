@@ -87,6 +87,7 @@
     justify-content: center;
     overflow-y: hidden;
     scrollbar-width: none;
+    margin-left: 4px;
   }
   /* -------------- pinned tabs at start instead of center */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .PinnedTabsBar {
@@ -103,8 +104,13 @@
   }
   /* -------------- move audio icon */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .Tab[data-pin="false"] .audio {
-    top: calc(var(--fav-size) - 14px);
+    top: calc(var(--fav-size) - 2px) !important;
     left: calc(var(--fav-size) - 2px) !important;
+    width: calc(var(--tabs-pinned-audio-btn-width) - 2px);
+    height: calc(var(--tabs-pinned-audio-btn-height) - 2px);
+    border-radius: calc(var(--tabs-border-radius) - 1px);
+    background-color: var(--frame-bg);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
   }
   /* -------------- hide tab title */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .Tab .title {
@@ -124,36 +130,24 @@
   #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .fav > img {
     opacity: 1;
   }
-  /* -------------- increase pinned tabs left margin */
+  /* -------------- decrease pinned tabs left margin */
   #root:not(:hover) .Tab[data-pin="true"] {
-    margin-left: 6px;
+/*     margin-left: 6px; */
   }
   /* -------------- shrink tab border */
   #root:not(:hover) .Tab[data-pin="false"] {
-    width: calc(var(--fav-size) + 12px);
+    width: calc(var(--fav-size) + 20px);
   }
-  #root:not(:hover) .Tab .body::before,
+  #root:not(:hover) .Tab[data-pin="false"] .body {
+    width: calc(100% - 8px);
+  }
+  /*   #root:not(:hover) .Tab .body::before,
   #root:not(:hover) .Tab .flash-fx {
     width: calc(100% + 4px);
-  }
-  /* -------------- shrink container tab border */
-  #root:not(:hover) .Tab .ctx {
-    width: calc(100% + 4px) !important;
-  }
+  } */
   /* -------------- shrink new tab button */
   #root:not(:hover) .TabsPanel .new-tab-btns {
     width: calc(var(--fav-size) * 2);
   }
   /* -------------- isolate settings button and widen it */
-  #root:not(:hover) .NavigationBar.-top .main-items,
-  #root:not(:hover) .NavigationBar.-top div[title="Create snapshot"],
-  #root:not(:hover) .NavigationBar.-top div[title="Search"] {
-    display: none;
-  }
-  #root:not(:hover) .NavigationBar.-top div[title="Settings"] {
-    width: calc(var(--fav-size) * 2 - 4px);
-  }
-  #root:hover .NavigationBar.-top div[title="Settings"] {
-    transition: width var(--d-slow) ease 1s;
-  }
-}
+  #root:not(:hover) .NavigationBar.-top 
