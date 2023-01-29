@@ -150,4 +150,15 @@
     width: calc(var(--fav-size) * 2);
   }
   /* -------------- isolate settings button and widen it */
-  #root:not(:hover) .NavigationBar.-top 
+  #root:not(:hover) .NavigationBar.-top .main-items,
+  #root:not(:hover) .NavigationBar.-top div[title="Create snapshot"],
+  #root:not(:hover) .NavigationBar.-top div[title="Search"] {
+    display: none;
+  }
+  #root:not(:hover) .NavigationBar.-top div[title="Settings"] {
+    width: calc(var(--fav-size) * 2 - 4px);
+  }
+  #root:hover .NavigationBar.-top div[title="Settings"] {
+    transition: width var(--d-slow) ease 1s;
+  }
+}
