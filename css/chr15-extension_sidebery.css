@@ -12,31 +12,12 @@
 /* about:devtools-toolbox?id=%7B3c078156-979c-498b-8990-85f7987dd929%7D&type=extension */
 @-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
 {
+  /* --------------------- add root varaibles */
   #root {
     --tabs-font: 13pt "Segoe UI";
     --tabs-count-font: 0.65rem "Verdana";
     --bookmarks-bookmark-font: 0.875rem "Segoe UI";
     --bookmarks-folder-font: 10pt "Segoe UI";
-  }
-  /* change scroll bar color to match theme */
-  .ScrollBox > .scroll-container {
-    scrollbar-color: color-mix(in srgb, var(--ff-frame) 75%, white) color-mix(in srgb, var(--ff-frame) 90%, white) !important;
-  }
-  /* add noise to sidebar elements' backgrounds */
-  #root,
-  .NavigationBar.-top,
-  .SearchBar,
-  .SearchBar::before,
-  .TabsPanel .PinnedTabsBar,
-  .TabsPanel .ScrollBox > .scroll-container > .scrollable,
-  .TabsPanel .new-tab-btns {
-    background-image: url("chrome://userchrome/content/UserStyles/images/noise-512x512.png");
-    /*     background-color: color-mix(in srgb, var(--frame-bg) 90%, transparent);
-    background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");
-    background-blend-mode: color-dodge; */
-  }
-  /* add margins and rounding around tabs */
-  #root {
     --tabs-height: 42px;
     --tabs-pinned-height: var(--tabs-height);
     --tabs-pinned-width: var(--tabs-height);
@@ -45,8 +26,30 @@
     --fav-size: 24px;
   }
 
-  /* background layer */
-  .Tab[data-pin="false"] {
+  /* --------------------- theming */
+  /* -------------- add noise to sidebar elements' backgrounds */
+  #root,
+  .NavigationBar,
+  .SearchBar,
+  .SearchBar::before,
+  .TabsPanel .PinnedTabsBar,
+/*   .TabsPanel .ScrollBox > .scroll-container > .scrollable, */
+  .TabsPanel .bottom-space,
+  .TabsPanel .new-tab-btns {
+    background-image: url("chrome://userchrome/content/UserStyles/images/noise-512x512.png");
+    /*     background-color: color-mix(in srgb, var(--frame-bg) 90%, transparent);
+    background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");
+    background-blend-mode: color-dodge; */
+  }
+  /* -------------- change scroll bar color to match theme */
+  .ScrollBox > .scroll-container {
+    scrollbar-color: color-mix(in srgb, var(--ff-frame) 75%, white) color-mix(in srgb, var(--ff-frame) 90%, white) !important;
+  }
+
+  /* --------------------- tabs */
+  /* -------------- body */
+  .Tab[data-pin="false"],
+  .ClosedTabsSubPanel .closed-tab {
     margin: 0px;
     width: 100%;
   }
@@ -54,9 +57,16 @@
     width: calc(var(--fav-size) + 12px);
     height: calc(var(--fav-size) + 12px);
     margin: 6px 4px 15px 0px;
-/*     padding-bottom: 0px; */
   }
-  .Tab[data-pin="false"] .body {
+/*   .ClosedTabsSubPanel .closed-tab {
+    width: calc(100% - var(--tabs-margin) * 2);
+    height: calc(var(--tabs-height) + var(--tabs-margin));
+    margin: 0 var(--tabs-margin);
+    padding-bottom: var(--tabs-margin);
+    padding-left: calc(var(--tabs-indent) * 16);
+  } */
+  .Tab[data-pin="false"] .body,
+  .ClosedTabsSubPanel .closed-tab .body {
     top: 2px !important;
     left: 6px !important;
     width: calc(100% - 12px);
@@ -69,31 +79,25 @@
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
     padding: 0;
   }
-  .Tab .fav {
+  /* -------------- favicons */
+  .Tab .fav,
+  .ClosedTabsSubPanel .closed-tab .fav {
     width: var(--fav-size);
     height: var(--fav-size);
 /*     background: #FF000055; */
   }
-  .Tab[data-pin="false"] .fav {
+  .Tab[data-pin="false"] .fav,
+  .ClosedTabsSubPanel .closed-tab .fav {
     margin-left: calc(var(--tabs-inner-gap) + 1px);
   }
-  .Tab .fav > .fav-icon {
+  .Tab .fav > .fav-icon,
+  .ClosedTabsSubPanel .closed-tab .fav > .fav-icon {
     /* image-rendering: optimizequality; */
     width: var(--fav-size);
     height: var(--fav-size);
     /* filter: drop-shadow(0px 0px 4px rgba(220,220,220,0.3)) !important; */
   }
-  .Tab .close {
-    right: 9px;
-    margin: 0px;
-    height: calc(var(--fav-size) + 2px);
-    top: calc((100% - var(--fav-size) - 2px) / 2);
-  }
-  .Tab .t-box {
-    height: calc(var(--fav-size));
-    --close-btn-offset: calc(var(--fav-size) + 2px);
-  }
-  /* adjust audio icon */
+  /* -------------- audio icon */
   .Tab .audio {
     left: calc(var(--fav-size) + 6px) !important;
     filter: drop-shadow(0px 0px 1px black) drop-shadow(0px 0px 1px black);
@@ -104,7 +108,22 @@
     width: calc(var(--tabs-pinned-audio-btn-width) - 2px);
     height: calc(var(--tabs-pinned-audio-btn-height) - 2px);
   }
-  /* create box shadow for nav buttons */
+  /* -------------- t-box */
+  .Tab .t-box,
+  .ClosedTabsSubPanel .closed-tab .t-box {
+    height: var(--fav-size);
+    --close-btn-offset: calc(var(--fav-size) - 6px);
+  }
+  /* -------------- close button */
+  .Tab .close {
+    top: 6px;
+    right: 6px;
+    height: var(--fav-size);
+    width: var(--fav-size);
+  }
+
+  /* --------------------- box shadows */
+  /* -------------- for nav buttons */
   .NavigationBar.-top[data-layout="inline"]::after {
     content: "";
     width: 100%;
@@ -118,7 +137,7 @@
   #root[data-nav-inline="true"] .top-horizontal-box {
     margin-bottom: 0px;
   }
-  /* create box shadow for search */
+  /* -------------- for search bar */
   #search_bar[data-showed="true"] {
     margin-top: -6px;
     margin-bottom: -6px;
@@ -140,7 +159,8 @@
     clip-path: inset(0px 0px -6px 0px);
     z-index: 200;
   }
-  /* adjust navigation buttons */
+
+  /* --------------------- adjust navigation buttons */
   .NavigationBar[data-layout="inline"] .nav-item {
     margin: 2px 1px;
   }
@@ -158,14 +178,33 @@
     position: relative;
     transform: none;
   }
-  /* fix size of new tab button */
-  .TabsPanel .new-tab-btns {
-/*     margin: 0px 0px 0px 0px; */
-/*     width: calc(100% - 1px); */
+
+  /* --------------------- adjust new tab button and closed tab button */
+  .TabsPanel .new-tab-btns,
+  .TabsPanel .bottom-bar {
+    height: var(--nav-btn-height);
+    width: calc(50%);
   }
-  /* make scrollbar slightly visible */
-  .scroll-container {
-    scrollbar-color: rgb(100, 100, 100) rgb(50, 50, 50) !important;
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] {
+    flex-shrink: 0;
+    padding: 2px 2px 2px 1px;
+    align-self: flex-end;
+  }
+  .TabsPanel .bottom-bar {
+    margin-top: calc(-1 * var(--nav-btn-height));
+    padding: 2px 1px 2px 2px;
+  }
+  .TabsPanel .new-tab-btn,
+  .TabsPanel .tool-btn {
+    height: 100%;
+  }
+  .TabsPanel .tools {
+    padding: 0px;
+  }
+  .ClosedTabsSubPanel .closed-tab .branch-btn {
+    width: var(--fav-size);
+    height: var(--fav-size);
+    margin-right: 6px;
   }
 
   /* --------------------- Variables used for styling of tree container strip and audible tabs */
@@ -184,8 +223,9 @@
   .Tab[data-lvl="11"], .pointer[data-lvl="11"] { --tab-lvl: 11; }
 
   /* --------------------- tab styles */
-  /* ---------------- tab: change container strip into border */
-  .Tab .ctx {
+  /* -------------- tab: change container strip into border */
+  .Tab .ctx,
+  .ClosedTabsSubPanel .closed-tab .container-mark {
     --ctx-height: var(--tabs-height);
     position: absolute !important;
     top: 0px !important;
@@ -219,11 +259,9 @@
     width: var(--fav-size);
   }
   /* -------------- tree: tab title */
-  .Tab .t-box {
+  .Tab .t-box,
+  .ClosedTabsSubPanel .closed-tab .t-box {
     width: calc(100% - 50px);
-  }
-  .Tab .title {
-    margin-bottom: 3px;
   }
   /* -------------- tree: tab title - active is bold */
   .Tab[data-active="true"] .title {
@@ -363,7 +401,8 @@
     padding-left: calc(var(--tabs-indent) * var(--tab-lvl)) !important;
   }
   /* set height/width/style of tree level marker */
-  #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after {
+  #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after,
+  #root[data-tabs-tree-lvl-marks="true"] .ClosedTabsSubPanel .closed-tab:not([data-lvl="0"]) .body:after {
     --indent-offset: 0;
     --tabs-lvl-opacity: 0.6;
     top: calc(50% - 2px);
