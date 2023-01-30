@@ -78,7 +78,7 @@
     /*     image-rendering: optimizequality; */
     width: var(--fav-size);
     height: var(--fav-size);
-    /*  filter: drop-shadow(0px 0px 4px rgba(220,220,220,0.3)) !important;*/
+/*     filter: drop-shadow(0px 0px 4px rgba(220,220,220,0.3)) !important; */
   }
   .Tab .close {
     right: 9px;
@@ -175,35 +175,8 @@
   .Tab[data-lvl="10"], .pointer[data-lvl="10"] { --tab-lvl: 10; }
   .Tab[data-lvl="11"], .pointer[data-lvl="11"] { --tab-lvl: 11; }
 
-  /* --------------------- Autohide sidebar tweaks */
-  /* ---------------- Reverse top toolbars when not hovering tree */
-  /*
-  #root[position="left"] .NavigationBar,
-  #root:not(:hover) .NavigationBar {
-    flex-direction: row-reverse;
-  }
-  /* ------- Last pin is shown and clickable in panel mode */
-  /* ---- browser on right */
-  /*
-  #root[data-pinned-tabs-position="panel"] .PinnedDock {
-    justify-content: flex-end;
-  }
-  #root[data-pinned-tabs-position="panel"]:not(:hover) .PinnedDock {
-    flex-direction: row-reverse;
-  }
-  /* ---- browser on left */
-  /*
-  #root[data-pinned-tabs-position="panel"] .PinnedDock {
-    justify-content: flex-end;
-    flex-direction: row-reverse;
-  }
-  /* ------- First pin is shown and clickable in panel mode */
-  /* ---- browser on right */
-  /*
-  #root[data-pinned-tabs-position="panel"]:hover .PinnedDock {
-    flex-direction: row-reverse;
-  }
-  /* ---------------- Change container strip into border */
+  /* --------------------- tab styles */
+  /* ---------------- tab: change container strip into border */
   .Tab .ctx {
     --ctx-height: var(--tabs-height);
     position: absolute !important;
@@ -229,7 +202,6 @@
     width: calc(100% + 4px) !important;
     height: calc(100% + 2px) !important;
   }
-  /* --------------------- tab styles */
   /* -------------- tree: move group counts to left of favicon */
   .Tab .fav > .child-count {
     top: calc(4 * var(--fav-size) / 6);
@@ -258,84 +230,12 @@
   .Tab[data-unread="true"] .title {
     font-style: italic;
   }
-  /* -------------- tree: tab title - scroll long titles */
-/*   .Tab:hover .title {
-    animation: scrollTitle 6s linear infinite alternate;
-    display: inline-block;
-    margin-bottom: 1px;
-  }
-  .Tab[data-active="true"]:hover .title {
-    margin-bottom: 0px;
-  }
-  @keyframes scrollTitle {
-    0%, 10%, 90%, 100% {
-      transform: translateX(0%);
-    }
-    50% {
-      transform: translateX(-100%);
-    }
-  } */
-/*   #root {
-  --tabs-font-size: 12px;
-  --tabs-title-lines: 2;
-} */
-
-  .Tab:hover .title {
-/*     animation: scrollTitle 2s linear infinite alternate; */
-/*     display: inline-block; */
-/*     margin-bottom: 1px; */
-  }
-  .Tab[data-active="true"]:hover .title {
-/*     margin-bottom: 0px; */
-  }
-  @keyframes scrollTitle {
-    0%, 10%, 90%, 100% {
-      transform: translatey(0%);
-    }
-    50% {
-      transform: translatey(-100%);
-    }
-  }
-
-/* .Tab .title {
-  overflow: hidden;
-} */
-.Tab .title {
-/*   vertical-align: middle; */
-/*   white-space: pre-wrap; */
-/*   inline-size: fit-content;
-  block-size: min-content; */
-/*   overflow-wrap: break-word; */
-/*   line-height: 1.4em;
-  word-break: break-word;
-  white-space: normal; */
-  }
-  .Tab .t-box {
-/*   clip-path: inset(4px 0 calc(0px + var(--fav-size)) 0); */
-  }
-  .Tab, .t-box {
-}
-  .Tab .t-box .title {
-/*    max-height: 1.4em; */
-/*     position: fixed !important;
-  top: 100% !important; */
-/*     background-color: red !important;
-    margin-top: 48px !important; */
-}
   /* -------------- tree: unread tab indicator is blurball */
   .Tab .unread-mark {
-    left: calc(var(--fav-size) / 6);
-    bottom: calc(var(--fav-size) / 10);
     width: 12px;
     height: 12px;
   }
-  .Tab[data-pin="true"] .unread-mark {
-    left: calc(var(--fav-size) / -10);
-    bottom: calc(var(--fav-size) / -6);
-  }
   .Tab .unread-mark::before {
-    /* left: calc(var(--fav-size) / -4);
-    bottom: calc(var(--fav-size) / -4); */
     z-index: -1;
     display: block;
     border-radius: 50%;
@@ -343,11 +243,10 @@
     width: 12px;
     height: 12px;
     opacity: 0;
-    /* transform: scale(0.7, 0.7); */
-    background-color: transparent;
+    transform: none;
     mask: radial-gradient(circle, #000 1px, #0000 2px), radial-gradient(circle, #000, #0000 5px);
-    /* transition: opacity var(--d-slow), transform var(--d-slow),
-      background-color var(--d-slow); */
+    transition: opacity var(--d-slow), transform var(--d-slow),
+      background-color var(--d-slow);
   }
   .Tab[data-unread="true"] .unread-mark::before {
     opacity: 1;
