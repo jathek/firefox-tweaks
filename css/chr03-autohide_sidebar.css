@@ -156,7 +156,7 @@
     display: none;
   }
   #root:not(:hover) .NavigationBar.-top div[title="Settings"] {
-    width: calc(var(--fav-size) * 2 - 4px);
+    width: calc(var(--fav-size) * 2 - 3px);
   }
   #root:hover .NavigationBar.-top div[title="Settings"] {
     transition: width var(--d-slow) ease 1s;

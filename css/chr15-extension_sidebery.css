@@ -75,10 +75,10 @@
     margin-left: calc(var(--tabs-inner-gap) + 1px);
   }
   .Tab .fav > .fav-icon {
-    /*     image-rendering: optimizequality; */
+    /* image-rendering: optimizequality; */
     width: var(--fav-size);
     height: var(--fav-size);
-/*     filter: drop-shadow(0px 0px 4px rgba(220,220,220,0.3)) !important; */
+    /* filter: drop-shadow(0px 0px 4px rgba(220,220,220,0.3)) !important; */
   }
   .Tab .close {
     right: 9px;
@@ -124,31 +124,23 @@
     position: absolute;
     z-index: 200;
   }
-  /* fix padding of static nav buttons */
-  .NavigationBar.-top .static-btns {
-/*     margin-right: 0px; */
-  }
   /* adjust navigation buttons */
-  .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index="1"] {
-    transform: translateX(calc((var(--nav-btn-width) + 2px) * 1));
+  .NavigationBar[data-layout="inline"] .nav-item {
+    margin: 2px 1px;
   }
-  .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index="2"] {
-    transform: translateX(calc((var(--nav-btn-width) + 2px) * 2));
+  .NavigationBar[data-layout="inline"] .main-items .nav-item:first-of-type {
+    margin-left: 2px;
   }
-  .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index="3"] {
-    transform: translateX(calc((var(--nav-btn-width) + 2px) * 3));
+  .NavigationBar[data-layout="inline"] .static-btns .nav-item:last-of-type {
+    margin-right: 2px;
   }
-  .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index="4"] {
-    transform: translateX(calc((var(--nav-btn-width) + 2px) * 4));
+  .NavigationBar[data-layout="inline"] .main-items,
+  .NavigationBar[data-layout="inline"] .static-btns {
+    grid-gap: 0px;
   }
-  .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index="5"] {
-    transform: translateX(calc((var(--nav-btn-width) + 2px) * 5));
-  }
-  .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index="6"] {
-    transform: translateX(calc((var(--nav-btn-width) + 2px) * 6));
-  }
-  .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index="7"] {
-    transform: translateX(calc((var(--nav-btn-width) + 2px) * 7));
+  .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index] {
+    position: relative;
+    transform: none;
   }
   /* fix size of new tab button */
   .TabsPanel .new-tab-btns {
