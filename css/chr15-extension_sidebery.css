@@ -21,13 +21,13 @@
     --tabs-height: 42px;
     --tabs-pinned-height: var(--tabs-height);
     --tabs-pinned-width: var(--tabs-height);
-    --selected-bg: rgba(0, 108, 151, 0.8) !important;
-    --selected-border: var(--selected-bg) !important;
     --fav-size: 24px;
     --tabs-margin: 3px;
-    --tabs-inner-gap: 6px;
+    --tabs-inner-gap: calc(var(--tabs-margin) * 2);
     --tabs-audio-btn-height: 18px;
     --tabs-audio-btn-width: 18px;
+/*     --selected-bg: rgba(255, 108, 151, 0.8) !important; */
+/*     --selected-border: var(--selected-bg) !important; */
   }
 
   /* --------------------- theming */
@@ -607,8 +607,12 @@
   /* --------------------- Adjust styles according to sidebar width */
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
     flex-wrap: nowrap !important;
-    justify-content: center;
+    justify-content: space-around;
     overflow-y: hidden;
     scrollbar-width: none;
+  }
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar:has(.to-the-end) {
+    justify-content: flex-start;
+    padding-left: calc(var(--tabs-margin) * 2);
   }
 }

@@ -74,9 +74,9 @@
 }
 
 /* hide sidebar header */
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
-/*   display: none; */
-}
+/* #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
+  display: none;
+} */
 
 /* Sidebery - vars set in main sidebery stylesheet */
 @-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
@@ -84,10 +84,9 @@
   /* --------------------- adjust styles according to sidebar width */
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
     flex-wrap: nowrap !important;
-    justify-content: center;
+    justify-content: space-around;
     overflow-y: hidden;
     scrollbar-width: none;
-    margin-left: 6px;
   }
   /* -------------- pinned tabs at start instead of center */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .PinnedTabsBar {
@@ -129,10 +128,6 @@
   /*ACTIVE*/
   #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .fav > img {
     opacity: 1;
-  }
-  /* -------------- decrease pinned tabs left margin */
-  #root:not(:hover) .Tab[data-pin="true"] {
-/*     margin-left: 6px; */
   }
   /* -------------- shrink tab border */
   #root:not(:hover) .Tab[data-pin="false"] {
