@@ -24,6 +24,10 @@
     --selected-bg: rgba(0, 108, 151, 0.8) !important;
     --selected-border: var(--selected-bg) !important;
     --fav-size: 24px;
+    --tabs-margin: 3px;
+    --tabs-inner-gap: 6px;
+    --tabs-audio-btn-height: 18px;
+    --tabs-audio-btn-width: 18px;
   }
 
   /* --------------------- theming */
@@ -47,16 +51,27 @@
   }
 
   /* --------------------- tabs */
-  /* -------------- body */
+  /* -------------- scroll container */
+  .ScrollBox .transition-box {
+    padding-top: 3px;
+  }
+  /* -------------- tab */
   .Tab[data-pin="false"],
   .ClosedTabsSubPanel .closed-tab {
-    margin: 0px;
     width: 100%;
+    height: var(--tabs-height);
+    margin: var(--tabs-margin) 0;
+    padding: 0;
   }
   .Tab[data-pin="true"] {
-    width: calc(var(--fav-size) + 12px);
-    height: calc(var(--fav-size) + 12px);
-    margin: 6px 4px 15px 0px;
+    width: calc(var(--tabs-height) - 6px);
+    height: calc(var(--tabs-height) - 6px);
+    margin: 0;
+  }
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
+    gap: calc(var(--tabs-margin) * 2);
+    padding: calc(var(--tabs-margin) * 2) 0;
+    flex-shrink: 0;
   }
 /*   .ClosedTabsSubPanel .closed-tab {
     width: calc(100% - var(--tabs-margin) * 2);
@@ -65,19 +80,17 @@
     padding-bottom: var(--tabs-margin);
     padding-left: calc(var(--tabs-indent) * 16);
   } */
+  /* -------------- body */
   .Tab[data-pin="false"] .body,
   .ClosedTabsSubPanel .closed-tab .body {
-    top: 2px !important;
-    left: 6px !important;
-    width: calc(100% - 12px);
-    height: calc(100% - 6px);
+    top: var(--tabs-margin) !important;
+    left: calc(var(--tabs-margin) * 2) !important;
+    width: calc(100% - calc(var(--tabs-margin) * 4));
+    height: calc(100% - calc(var(--tabs-margin) * 2));
   }
   .Tab[data-pin="true"] .body {
     width: 100%;
     height: 100%;
-  }
-  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
-    padding: 0;
   }
   /* -------------- favicons */
   .Tab .fav,
@@ -88,7 +101,7 @@
   }
   .Tab[data-pin="false"] .fav,
   .ClosedTabsSubPanel .closed-tab .fav {
-    margin-left: calc(var(--tabs-inner-gap) + 1px);
+    margin: var(--tabs-inner-gap);
   }
   .Tab .fav > .fav-icon,
   .ClosedTabsSubPanel .closed-tab .fav > .fav-icon {
@@ -98,9 +111,13 @@
     /* filter: drop-shadow(0px 0px 4px rgba(220,220,220,0.3)) !important; */
   }
   /* -------------- audio icon */
-  .Tab .audio {
-    left: calc(var(--fav-size) + 6px) !important;
+  .Tab[data-pin="false"] .audio {
+    top: calc(var(--fav-size) / 2 - var(--tabs-inner-gap) / 2);
+    left: calc(var(--fav-size) + var(--tabs-inner-gap));
+    width: var(--tabs-audio-btn-width);
+    height: var(--tabs-audio-btn-height);
     filter: drop-shadow(0px 0px 1px black) drop-shadow(0px 0px 1px black);
+/*     outline: 1px solid green; */
   }
   .Tab[data-pin="true"] .audio {
     top: calc(var(--fav-size) - 2px) !important;
@@ -111,13 +128,17 @@
   /* -------------- t-box */
   .Tab .t-box,
   .ClosedTabsSubPanel .closed-tab .t-box {
+    --audio-btn-offset: calc(var(--tabs-audio-btn-width) - var(--tabs-inner-gap));
+    --close-btn-offset: calc(var(--fav-size) - var(--tabs-inner-gap));
     height: var(--fav-size);
-    --close-btn-offset: calc(var(--fav-size) - 6px);
+  }
+  .Tab .title {
+    padding-bottom: 0px;
   }
   /* -------------- close button */
   .Tab .close {
-    top: 6px;
-    right: 6px;
+    top: var(--tabs-inner-gap);
+    right: var(--tabs-inner-gap);
     height: var(--fav-size);
     width: var(--fav-size);
   }
@@ -141,12 +162,14 @@
   #search_bar[data-showed="true"] {
     margin-top: -6px;
     margin-bottom: -6px;
-    height: calc(var(--search-height) + 6px * 2);
+    height: calc(var(--nav-btn-height) + 12px);
+    padding: 0px;
     cursor: default;
+    outline: 1px solid red;
   }
   #search_bar[data-showed="true"]::before {
     top: calc(6px + 2px);
-    height: calc(100% - 6px - 10px);
+    height: calc(var(--nav-btn-height) - 6px + 2px);
   }
   #search_bar[data-showed="true"]::after {
     content: "";
@@ -158,6 +181,10 @@
     box-shadow: 0 1px 0 0 rgba(0,0,0,.071),0 1px 6px 0 rgba(0,0,0,.408);
     clip-path: inset(0px 0px -6px 0px);
     z-index: 200;
+  }
+  #search_bar .clear-btn {
+    width: 18px;
+    margin: 6px;
   }
 
   /* --------------------- adjust navigation buttons */
@@ -172,7 +199,7 @@
   }
   .NavigationBar[data-layout="inline"] .main-items,
   .NavigationBar[data-layout="inline"] .static-btns {
-    grid-gap: 0px;
+    gap: 0px;
   }
   .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index] {
     position: relative;
@@ -245,10 +272,10 @@
     touch-action: none;
   }
   .Tab[data-pin="true"] .ctx {
-    top: 2px !important;
-    left: -2px !important;
-    width: calc(100% + 4px) !important;
-    height: calc(100% + 2px) !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: calc(100%) !important;
+    height: calc(100%) !important;
   }
   /* -------------- tree: move group counts to left of favicon */
   .Tab .fav > .child-count {
@@ -500,7 +527,7 @@
   /* ------- Audible tabs */
   .Tab[data-audible="true"] .fav::before,
   .Tab[data-muted="true"] .fav::before {
-    --pulse-diameter: var(--tabs-height);
+    --pulse-diameter: calc(var(--tabs-height) - var(--tabs-inner-gap));
     --pulse-indent: calc(var(--tab-lvl) * var(--tabs-indent, 0px));
     content: "";
     position: absolute;
@@ -546,20 +573,20 @@
       opacity: 1;
     }
     100% {
-      height: calc(var(--pulse-diameter) - 4px);
-      width: calc(var(--pulse-diameter) - 4px);
-      top: calc(50% - var(--pulse-diameter) / 2 + 2px);
-      left: calc(50% - var(--pulse-diameter) / 2 + 2px);
+      height: var(--pulse-diameter);
+      width: var(--pulse-diameter);
+      top: calc(50% - var(--pulse-diameter) / 2);
+      left: calc(50% - var(--pulse-diameter) / 2);
       opacity: 0;
       background: var(--pulse-color);
     }
   }
   /* ------- Muted tabs */
   .Tab[data-audible="false"][data-muted="true"] .fav::before {
-    height: calc(var(--pulse-diameter) - 4px);
-    width: calc(var(--pulse-diameter) - 4px);
-    top: calc(50% - var(--pulse-diameter) / 2 + 2px);
-    left: calc(50% - var(--pulse-diameter) / 2 + 2px);
+    height: var(--pulse-diameter);
+    width: var(--pulse-diameter);
+    top: calc(50% - var(--pulse-diameter) / 2);
+    left: calc(50% - var(--pulse-diameter) / 2);
     background: red;
     animation: pulse-bg 1.25s ease-out 0s infinite alternate;
   }
