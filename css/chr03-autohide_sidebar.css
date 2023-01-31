@@ -87,7 +87,7 @@
     justify-content: center;
     overflow-y: hidden;
     scrollbar-width: none;
-    margin-left: 4px;
+    margin-left: 6px;
   }
   /* -------------- pinned tabs at start instead of center */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .PinnedTabsBar {
