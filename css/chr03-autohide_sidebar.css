@@ -129,8 +129,12 @@
     width: calc(100% - calc(var(--tabs-margin) * 4));
   }
   /* -------------- shrink new tab button */
-  #root:not(:hover) .TabsPanel .new-tab-btns {
+  #root:not(:hover) .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] {
+    align-self: flex-start;
     width: calc(var(--fav-size) * 2);
+  }
+  #root:not(:hover) .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn {
+    display: none;
   }
   /* -------------- isolate settings button and widen it */
   #root:not(:hover) .NavigationBar.-top .main-items,
