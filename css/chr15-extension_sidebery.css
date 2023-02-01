@@ -229,8 +229,8 @@
   }
 
   /* --------------------- adjust new tab button and closed tab button */
-  .TabsPanel .new-tab-btns,
-  .TabsPanel .bottom-bar {
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"],
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
     height: var(--nav-btn-height);
     width: calc(50%);
   }
@@ -239,15 +239,15 @@
     padding: 2px 2px 2px 1px;
     align-self: flex-end;
   }
-  .TabsPanel .bottom-bar {
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
     margin-top: calc(-1 * var(--nav-btn-height));
     padding: 2px 1px 2px 2px;
   }
   .TabsPanel .new-tab-btn,
-  .TabsPanel .tool-btn {
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn {
     height: 100%;
   }
-  .TabsPanel .tools {
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tools {
     padding: 0px;
   }
   .ClosedTabsSubPanel .closed-tab .branch-btn {
