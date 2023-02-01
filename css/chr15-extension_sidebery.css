@@ -1,14 +1,14 @@
-/* shrink sidebar splitter when sidebery is open and sidebar isn't autohidden */
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] + #sidebar-splitter {
-  margin-inline: 0 0px;
+/* --------------------- shrink sidebar splitter when sidebery is open and sidebar isn't autohidden */
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] + #sidebar-splitter {
+  margin-inline: 0 0;
   width: 1px;
   border-left: 1px solid color-mix(in srgb, var(--lwt-accent-color) 95%, white);
 }
-/* hide sidebar header */
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
+/* --------------------- hide sidebar header */
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
   display: none;
 }
-/* sidebery sidebar stylesheet */
+/* --------------------- sidebery sidebar stylesheet */
 /* about:devtools-toolbox?id=%7B3c078156-979c-498b-8990-85f7987dd929%7D&type=extension */
 @-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
 {
@@ -19,15 +19,15 @@
     --bookmarks-bookmark-font: 0.875rem "Segoe UI";
     --bookmarks-folder-font: 10pt "Segoe UI";
     --tabs-height: 42px;
-    --tabs-pinned-height: var(--tabs-height);
-    --tabs-pinned-width: var(--tabs-height);
+    --tabs-pinned-height: calc(var(--tabs-height) - var(--tabs-margin) * 2);
+    --tabs-pinned-width: calc(var(--tabs-height) - var(--tabs-margin) * 2);
     --fav-size: 24px;
     --tabs-margin: 3px;
     --tabs-inner-gap: calc(var(--tabs-margin) * 2);
     --tabs-audio-btn-height: 18px;
     --tabs-audio-btn-width: 18px;
-/*     --selected-bg: rgba(255, 108, 151, 0.8) !important; */
-/*     --selected-border: var(--selected-bg) !important; */
+    /* --selected-bg: rgb(255 108 151 / 0.8) !important; */
+    /* --selected-border: var(--selected-bg) !important; */
   }
 
   /* --------------------- theming */
@@ -37,11 +37,10 @@
   .SearchBar,
   .SearchBar::before,
   .TabsPanel .PinnedTabsBar,
-/*   .TabsPanel .ScrollBox > .scroll-container > .scrollable, */
   .TabsPanel .bottom-space,
   .TabsPanel .new-tab-btns {
     background-image: url("chrome://userchrome/content/UserStyles/images/noise-512x512.png");
-    /*     background-color: color-mix(in srgb, var(--frame-bg) 90%, transparent);
+    /* background-color: color-mix(in srgb, var(--frame-bg) 90%, transparent);
     background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");
     background-blend-mode: color-dodge; */
   }
@@ -53,7 +52,7 @@
   /* --------------------- tabs */
   /* -------------- scroll container */
   .ScrollBox .transition-box {
-    padding-top: 3px;
+    padding-top: var(--tabs-margin);
   }
   /* -------------- pinned tabs bar */
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
@@ -97,8 +96,8 @@
     padding-left: calc(var(--tabs-indent) * 16);
   } */
   .Tab[data-pin="true"] {
-    width: calc(var(--tabs-height) - 6px);
-    height: calc(var(--tabs-height) - 6px);
+    width: var(--tabs-pinned-width);
+    height: var(--tabs-pinned-height);
     margin: 0;
   }
   /* -------------- body */
@@ -129,11 +128,11 @@
     /* image-rendering: optimizequality; */
     width: var(--fav-size);
     height: var(--fav-size);
-    /* filter: drop-shadow(0px 0px 4px rgba(220,220,220,0.3)) !important; */
+    /* filter: drop-shadow(0 0 4px rgb(220 220 220 / 0.3)) !important; */
   }
   /* -------------- audio icon */
   .Tab .audio {
-    filter: drop-shadow(0px 0px 1px black) drop-shadow(0px 0px 1px black);
+    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
   }
   .Tab[data-pin="false"] .audio {
     top: calc(var(--fav-size) / 2 - var(--tabs-inner-gap) / 2);
@@ -155,7 +154,7 @@
     height: var(--fav-size);
   }
   .Tab .title {
-    padding-bottom: 0px;
+    padding-bottom: 0;
   }
   /* -------------- close button */
   .Tab .close {
@@ -173,19 +172,19 @@
     height: 6px;
     left: 0;
     bottom: -6px;
-    box-shadow: 0 -1px 0 0 rgba(0,0,0,.071),0 -1px 6px 0 rgba(0,0,0,.408);
-    clip-path: inset(-6px 0px 0px 0px);
+    box-shadow: 0 -1px 0 0 rgb(0 0 0 / .071),0 -1px 6px 0 rgb(0 0 0 / .408);
+    clip-path: inset(-6px 0 0 0);
     position: absolute;
   }
   #root[data-nav-inline="true"] .top-horizontal-box {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
   /* -------------- for search bar */
   #search_bar[data-showed="true"] {
     margin-top: -6px;
     margin-bottom: -6px;
     height: calc(var(--nav-btn-height) + 12px);
-    padding: 0px;
+    padding: 0;
     cursor: default;
   }
   #search_bar[data-showed="true"]::before {
@@ -199,8 +198,8 @@
     bottom: 6px;
     width: 100%;
     height: 6px;
-    box-shadow: 0 1px 0 0 rgba(0,0,0,.071),0 1px 6px 0 rgba(0,0,0,.408);
-    clip-path: inset(0px 0px -6px 0px);
+    box-shadow: 0 1px 0 0 rgb(0 0 0 / .071),0 1px 6px 0 rgb(0 0 0 / .408);
+    clip-path: inset(0 0 -6px 0);
     z-index: 200;
   }
   #search_bar .clear-btn {
@@ -220,7 +219,7 @@
   }
   .NavigationBar[data-layout="inline"] .main-items,
   .NavigationBar[data-layout="inline"] .static-btns {
-    gap: 0px;
+    gap: 0;
   }
   .NavigationBar[data-layout="inline"] .main-items .nav-item[data-index] {
     position: relative;
@@ -247,7 +246,7 @@
     height: 100%;
   }
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tools {
-    padding: 0px;
+    padding: 0;
   }
   .ClosedTabsSubPanel .closed-tab .branch-btn {
     width: var(--fav-size);
@@ -276,8 +275,8 @@
   .ClosedTabsSubPanel .closed-tab .container-mark {
     --ctx-height: var(--tabs-height);
     position: absolute !important;
-    top: 0px !important;
-    left: 0px !important;
+    top: 0 !important;
+    left: 0 !important;
     width: 100% !important;
     height: 100% !important;
     border-radius: 4px;
@@ -293,8 +292,8 @@
     touch-action: none;
   }
   .Tab[data-pin="true"] .ctx {
-    top: 0px !important;
-    left: 0px !important;
+    top: 0 !important;
+    left: 0 !important;
     width: calc(100%) !important;
     height: calc(100%) !important;
   }
@@ -302,7 +301,7 @@
   .Tab .fav > .child-count {
     top: calc(4 * var(--fav-size) / 6);
     right: calc(var(--fav-size) / -8);
-    filter: drop-shadow(0px 0px 1px black);
+    filter: drop-shadow(0 0 1px black);
     text-align: right;
     width: var(--fav-size);
   }
@@ -333,7 +332,7 @@
     z-index: -1;
     display: block;
     border-radius: 50%;
-    border: 0px solid transparent;
+    border: 0 solid transparent;
     width: 12px;
     height: 12px;
     opacity: 0;
@@ -386,18 +385,18 @@
     background: url("chrome://browser/skin/tabbrowser/indicator-tab-attention.svg");
   4th - browser default via css:
     background:
-      radial-gradient(circle,rgb(0, 254, 255),rgb(0, 254, 255) 2px,#0000 2px),
-      radial-gradient(circle,rgba(0, 200, 215, .6),rgba(0, 200, 215, .6) 4px,#0000 4px),
-      radial-gradient(circle,rgba(0, 200, 215, .2),rgba(0, 200, 215, .2) 6px,#0000 6px);
+      radial-gradient(circle,rgb(0 254 255),rgb(0 254 255) 2px,#0000 2px),
+      radial-gradient(circle,rgb(0 200 215 / .6),rgb(0 200 215 / .6) 4px,#0000 4px),
+      radial-gradient(circle,rgb(0 200 215 / .2),rgb(0 200 215 / .2) 6px,#0000 6px);
   5th - browser default w. smooth gradient:
-    background: radial-gradient(circle,rgb(0, 254, 255),rgba(0, 200, 215, .6) 2px,rgba(0, 200, 215, .2) 4px,#0000 6px);
+    background: radial-gradient(circle,rgb(0 254 255),rgb(0 200 215 / .6) 2px,rgb(0 200 215 / .2) 4px,#0000 6px);
   */
   /* -------------- tabs: hourglass icon for pending tabs */
   .Tab[data-loading="true"] .badge,
   .Tab:not([data-loading="true"])[data-pending="true"] .badge {
     width: 14px;
     height: 14px;
-    filter: drop-shadow(0px 0px 1px white);
+    filter: drop-shadow(0 0 1px white);
     background: transparent url(chrome://browser/skin/tabbrowser/hourglass.svg) center/contain;
     z-index: initial;
     mask: unset;
@@ -405,7 +404,7 @@
   }
   #root[data-color-scheme="dark"] .Tab[data-loading="true"] .badge,
   #root[data-color-scheme="dark"] .Tab:not([data-loading="true"])[data-pending="true"] .badge {
-    filter: invert(100%) drop-shadow(0px 0px 1px black);
+    filter: invert(100%) drop-shadow(0 0 1px black);
   }
   /* -------------- tabs: custom idents */
   /* .Tab:not([data-lvl="0"])::before {
@@ -439,7 +438,7 @@
   }
   .Tab:not([data-lvl="0"]) > .body {
     padding-left: 8px;
-    margin-left: 0px;
+    margin-left: 0;
   } */
   #root[data-tabs-tree-lvl-marks="true"] {
     --tabs-indent: 18px;
@@ -549,7 +548,7 @@
   .Tab[data-audible="true"] .fav::before,
   .Tab[data-muted="true"] .fav::before {
     --pulse-diameter: calc(var(--tabs-height) - var(--tabs-inner-gap));
-    --pulse-indent: calc(var(--tab-lvl) * var(--tabs-indent, 0px));
+    --pulse-indent: calc(var(--tab-lvl) * var(--tabs-indent, 0));
     content: "";
     position: absolute;
     border-radius: 4px;
@@ -573,22 +572,22 @@
       top: 2px;
       left: calc(2px + var(--pulse-indent) + 2px);
       height: calc(100% - 4px);
-      width: 0px;
+      width: 0;
       opacity: 0.75;
     }
     100% {
       top: 2px;
       left: calc(2px + var(--pulse-indent) + 2px);
       height: calc(100% - 4px);
-      width: calc(100% - var(--pulse-indent) - 8px + var(--pulse-width-adj, 0px));
+      width: calc(100% - var(--pulse-indent) - 8px + var(--pulse-width-adj, 0));
       opacity: 1;
       background: var(--pulse-color);
     }
   }
   @keyframes pulse-circle {
     0% {
-      height: 0px;
-      width: 0px;
+      height: 0;
+      width: 0;
       top: 50%;
       left: 50%;
       opacity: 1;
