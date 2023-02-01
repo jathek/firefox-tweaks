@@ -1,6 +1,7 @@
 :root {
-  --autohide-sidebar-collapsed: 47px;
-  --autohide-sidebar-collapsed-border: calc(var(--autohide-sidebar-collapsed) + 1px);
+  --autohide-sidebar-collapsed-no-border: 47px; /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2 - 1px) */
+  --autohide-sidebar-collapsed-border: calc(var(--autohide-sidebar-collapsed-no-border) + 1px);
+  --autohide-sidebar-collapsed: var(--autohide-sidebar-collapsed-border);
   --autohide-sidebar-extended: 414px;
   --autohide-sidebar-toolbar-height: var(--uc-toolbar-height, 65px); /* variable from hide_titlebar.css */
 }
@@ -20,7 +21,6 @@
 }
 /* add border and change position to match */
 #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
-  --autohide-sidebar-collapsed: var(--autohide-sidebar-collapsed-border);
   border-left: 1px solid color-mix(in srgb, var(--lwt-accent-color) 95%, white);
 }
 #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]):hover,
@@ -82,17 +82,10 @@
 @-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
 {
   /* --------------------- adjust styles according to sidebar width */
-  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
-    flex-wrap: nowrap !important;
-    justify-content: space-around;
-    overflow-y: hidden;
-    scrollbar-width: none;
-  }
   /* -------------- pinned tabs at start instead of center */
-  #root[data-pinned-tabs-position="panel"]:not(:hover) .PinnedTabsBar {
-    justify-content: flex-start;
+  #root[data-pinned-tabs-position="panel"]:not(:hover) .PinnedTabsBar::before {
+    margin: 0;
   }
-  /*ACTIVE*/
   /* -------------- set tree indent to 0 */
   #root[data-tabs-tree-lvl-marks="true"]:not(:hover) {
     --tabs-indent: 0px;
@@ -103,11 +96,11 @@
   }
   /* -------------- move audio icon */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .Tab[data-pin="false"] .audio {
-    top: calc(var(--fav-size) - 2px) !important;
-    left: calc(var(--fav-size) - 2px) !important;
-    width: calc(var(--tabs-pinned-audio-btn-width) - 2px);
-    height: calc(var(--tabs-pinned-audio-btn-height) - 2px);
-    border-radius: calc(var(--tabs-border-radius) - 1px);
+    top: calc(var(--fav-size) - var(--tabs-inner-gap) / 3) !important;
+    left: calc(var(--fav-size) - var(--tabs-inner-gap) / 3) !important;
+    width: calc(var(--tabs-pinned-audio-btn-width) - var(--tabs-inner-gap) / 3);
+    height: calc(var(--tabs-pinned-audio-btn-height) - var(--tabs-inner-gap) / 3);
+    border-radius: var(--tabs-border-radius);
     background-color: var(--frame-bg);
     box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
   }
@@ -125,21 +118,16 @@
     display: none;
   }
   /* -------------- set group parent favicons to full opacity */
-  /*ACTIVE*/
   #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .fav > img {
     opacity: 1;
   }
   /* -------------- shrink tab border */
   #root:not(:hover) .Tab[data-pin="false"] {
-    width: calc(var(--fav-size) + 20px);
+    width: var(--autohide-sidebar-collapsed);
   }
   #root:not(:hover) .Tab[data-pin="false"] .body {
-    width: calc(100% - 8px);
+    width: calc(100% - calc(var(--tabs-margin) * 4));
   }
-  /*   #root:not(:hover) .Tab .body::before,
-  #root:not(:hover) .Tab .flash-fx {
-    width: calc(100% + 4px);
-  } */
   /* -------------- shrink new tab button */
   #root:not(:hover) .TabsPanel .new-tab-btns {
     width: calc(var(--fav-size) * 2);
@@ -151,7 +139,8 @@
     display: none;
   }
   #root:not(:hover) .NavigationBar.-top div[title="Settings"] {
-    width: calc(var(--fav-size) * 2 - 3px);
+    width: calc(var(--autohide-sidebar-collapsed));
+    margin: 0px;
   }
   #root:hover .NavigationBar.-top div[title="Settings"] {
     transition: width var(--d-slow) ease 1s;
