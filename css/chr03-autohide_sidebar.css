@@ -1,5 +1,5 @@
 :root {
-  --autohide-sidebar-collapsed-no-border: calc(var(--autohide-sidebar-collapsed-border) - 1px); /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2 - 1px) */
+  --autohide-sidebar-collapsed-no-border: calc(var(--autohide-sidebar-collapsed-border) - 1px);
   --autohide-sidebar-collapsed-border: 48px; /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2) */
   --autohide-sidebar-collapsed: var(--autohide-sidebar-collapsed-border);
   --autohide-sidebar-extended: 414px;
