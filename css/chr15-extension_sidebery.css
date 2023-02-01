@@ -12,7 +12,7 @@
 /* about:devtools-toolbox?id=%7B3c078156-979c-498b-8990-85f7987dd929%7D&type=extension */
 @-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
 {
-  /* --------------------- add root varaibles */
+  /* --------------------- add root variables */
   #root {
     --tabs-font: 13pt "Segoe UI";
     --tabs-count-font: 0.65rem "Verdana";
@@ -55,6 +55,32 @@
   .ScrollBox .transition-box {
     padding-top: 3px;
   }
+  /* -------------- pinned tabs bar */
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
+    gap: calc(var(--tabs-margin) * 2);
+    padding: calc(var(--tabs-margin) * 2) 0;
+    flex-shrink: 0;
+  }
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
+    flex-wrap: nowrap;
+    position: relative;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar::before,
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    opacity: 0;
+    margin: auto;
+    pointer-events: none;
+    touch-action: none;
+  }
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar::after {
+    position: static;
+    right: 0;
+  }
   /* -------------- tab */
   .Tab[data-pin="false"],
   .ClosedTabsSubPanel .closed-tab {
@@ -63,23 +89,18 @@
     margin: var(--tabs-margin) 0;
     padding: 0;
   }
-  .Tab[data-pin="true"] {
-    width: calc(var(--tabs-height) - 6px);
-    height: calc(var(--tabs-height) - 6px);
-    margin: 0;
-  }
-  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
-    gap: calc(var(--tabs-margin) * 2);
-    padding: calc(var(--tabs-margin) * 2) 0;
-    flex-shrink: 0;
-  }
-/*   .ClosedTabsSubPanel .closed-tab {
+  /*   .ClosedTabsSubPanel .closed-tab {
     width: calc(100% - var(--tabs-margin) * 2);
     height: calc(var(--tabs-height) + var(--tabs-margin));
     margin: 0 var(--tabs-margin);
     padding-bottom: var(--tabs-margin);
     padding-left: calc(var(--tabs-indent) * 16);
   } */
+  .Tab[data-pin="true"] {
+    width: calc(var(--tabs-height) - 6px);
+    height: calc(var(--tabs-height) - 6px);
+    margin: 0;
+  }
   /* -------------- body */
   .Tab[data-pin="false"] .body,
   .ClosedTabsSubPanel .closed-tab .body {
@@ -111,19 +132,20 @@
     /* filter: drop-shadow(0px 0px 4px rgba(220,220,220,0.3)) !important; */
   }
   /* -------------- audio icon */
+  .Tab .audio {
+    filter: drop-shadow(0px 0px 1px black) drop-shadow(0px 0px 1px black);
+  }
   .Tab[data-pin="false"] .audio {
     top: calc(var(--fav-size) / 2 - var(--tabs-inner-gap) / 2);
     left: calc(var(--fav-size) + var(--tabs-inner-gap));
     width: var(--tabs-audio-btn-width);
     height: var(--tabs-audio-btn-height);
-    filter: drop-shadow(0px 0px 1px black) drop-shadow(0px 0px 1px black);
-/*     outline: 1px solid green; */
   }
   .Tab[data-pin="true"] .audio {
-    top: calc(var(--fav-size) - 2px) !important;
-    left: calc(var(--fav-size) - 2px) !important;
-    width: calc(var(--tabs-pinned-audio-btn-width) - 2px);
-    height: calc(var(--tabs-pinned-audio-btn-height) - 2px);
+    top: calc(var(--fav-size) - var(--tabs-inner-gap) / 3) !important;
+    left: calc(var(--fav-size) - var(--tabs-inner-gap) / 3) !important;
+    width: calc(var(--tabs-pinned-audio-btn-width) - var(--tabs-inner-gap) / 3);
+    height: calc(var(--tabs-pinned-audio-btn-height) - var(--tabs-inner-gap) / 3);
   }
   /* -------------- t-box */
   .Tab .t-box,
@@ -427,7 +449,7 @@
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]) {
     padding-left: calc(var(--tabs-indent) * var(--tab-lvl)) !important;
   }
-  /* set height/width/style of tree level marker */
+  /* -------------- set height/width/style of tree level marker */
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after,
   #root[data-tabs-tree-lvl-marks="true"] .ClosedTabsSubPanel .closed-tab:not([data-lvl="0"]) .body:after {
     --indent-offset: 0;
@@ -466,12 +488,12 @@
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"][data-lvl="8"] .body::after { content: "8"; }
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"][data-lvl="9"] .body::after { content: "9"; }
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"][data-lvl="10"] .body::after { content: "10"; }
-  /* change tab drag pointer */
+  /* -------------- change tab drag pointer */
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]:not([data-lvl="0"])::before,
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]:not([data-lvl="0"])::after {
     transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 1 - 6px));
   }
-  /* add level digit to tab drag pointer */
+  /* -------------- add level digit to tab drag pointer */
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]::before {
     font: bold var(--tabs-count-font);
     color: var(--toolbar-fg);
@@ -524,7 +546,7 @@
     transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 1.97));
   } */
   /* -------------- tabs: audio events */
-  /* ------- Audible tabs */
+  /* ------- audible tabs */
   .Tab[data-audible="true"] .fav::before,
   .Tab[data-muted="true"] .fav::before {
     --pulse-diameter: calc(var(--tabs-height) - var(--tabs-inner-gap));
@@ -581,7 +603,7 @@
       background: var(--pulse-color);
     }
   }
-  /* ------- Muted tabs */
+  /* ------- muted tabs */
   .Tab[data-audible="false"][data-muted="true"] .fav::before {
     height: var(--pulse-diameter);
     width: var(--pulse-diameter);
@@ -602,17 +624,5 @@
   /* -------------- move confirm-popup to center */
   .popup-container {
     align-items: center;
-  }
-
-  /* --------------------- Adjust styles according to sidebar width */
-  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
-    flex-wrap: nowrap !important;
-    justify-content: space-around;
-    overflow-y: hidden;
-    scrollbar-width: none;
-  }
-  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar:has(.to-the-end) {
-    justify-content: flex-start;
-    padding-left: calc(var(--tabs-margin) * 2);
   }
 }
