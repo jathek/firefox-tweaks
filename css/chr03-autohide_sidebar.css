@@ -1,98 +1,85 @@
 :root {
-  --autohide-sidebar-collapsed-border: 48px; /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2) */
-  --autohide-sidebar-collapsed-no-border: calc(var(--autohide-sidebar-collapsed-border) - 1px);
+  --autohide-sidebar-collapsed-border: calc(var(--autohide-sidebar-collapsed-no-border) + 1px);
+  --autohide-sidebar-collapsed-no-border: 48px; /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 4) */
   --autohide-sidebar-collapsed: var(--autohide-sidebar-collapsed-border);
   --autohide-sidebar-extended: 414px;
-  --autohide-sidebar-toolbar-height: var(--uc-toolbar-height, 65px); /* variable from hide_titlebar.css */
+  --autohide-sidebar-toolbar-height: var(--uc-toolbar-height, 32px); /* variable from hide_titlebar.css */
 }
-/* -------------------------- Sidebery Auto-hiding Sidebar ------------------------ */
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
-/*   display: flex;
+/* -------------------------- auto-hide sidebar when sidebery is open */
+/* -------------- shrink sidebar by default */
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
+  /*   display: flex;
   flex-direction: column;
   overflow: hidden; */
   position: fixed;
-  right: 1px;
-/*   left: calc(100vw - var(--autohide-sidebar-collapsed)); */
+  right: 0;
+  /*   left: calc(100vw - var(--autohide-sidebar-collapsed)); */
   width: var(--autohide-sidebar-collapsed) !important;
   min-width: unset;
   max-width: unset;
   z-index: 1;
   transition: all 0.2s ease !important;
 }
-/* add border (requires autohide-sidebar-collapsed-border) */
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
-  border-left: 1px solid color-mix(in srgb, var(--lwt-accent-color) 95%, white);
-}
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]):hover,
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header,
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar {
+/* -------------- expand on hover */
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]):hover,
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header,
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar {
   width: var(--autohide-sidebar-extended) !important; /* size of panel while extended */
-/*   left: calc(100vw - var(--autohide-sidebar-extended)); */
+  /*   left: calc(100vw - var(--autohide-sidebar-extended)); */
 }
-
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] + #sidebar-splitter {
-  margin-inline: 0 1px;
+/* -------------- hide sidebar splitter */
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] + #sidebar-splitter {
+  display: none;
 }
-
-/*
-* Adjust to your settings!
-* You need to subtract the height of the panels above sidebar: nav bar,
-* bookmarks bar, etc. -- whichever is enabled/displayed.
-*
-* You can see which mode (normal, compact or touch) you’re in by going to:
-* Firefox Menu ? Customize… (at the bottom of the screen) ? Density
-*
-*                | normal | compact | touch
-* Menu bar       |  27px  |   27px  |  27px
-* Tab bar        |  33px  |   29px  |  41px
-* Nav bar        |  40px  |   32px  |  40px
-* Bookmarks bar  |  23px  |   21px  |  27px
-*
-* Example:
-* - tab bar is hidden with CSS above (0px)
-* - menu and bookmarks bar are hidden by default (0px)
-* - that only leaves nav bar = 40px in normal mode (default)
-*/
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
-  height: calc(100vh - var(--autohide-sidebar-toolbar-height));
-}
-
-/* #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar {
-  flex-grow: 1;
-} */
-
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) ~ #appcontent {
+/* -------------- reserve space for collapsed sidebar on browser right */
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) ~ #appcontent {
   margin-right: var(--autohide-sidebar-collapsed);
 }
-
-#main-window:not([extradragspace="true"])[inFullscreen][inDOMFullscreen] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) ~ #appcontent {
-  margin-right: 0 !important;
+/* -------------- remove space for collapsed sidebar in fullscreen videos */
+#main-window[inFullscreen][inDOMFullscreen] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) ~ #appcontent {
+  margin-right: 0;
 }
-
-#main-window:not([extradragspace="true"])[inFullscreen] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+/* -------------- set height to max minus toolbars by default */
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+  height: calc(100vh - var(--autohide-sidebar-toolbar-height));
+}
+/* -------------- set browser height to max when fullscreen */
+#main-window[inFullscreen] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
   height: 100vh;
 }
 
-/* hide sidebar header */
-/* #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
-  display: none;
-} */
-
-/* Sidebery - vars set in main sidebery stylesheet */
+/* --------------------- sidebery - vars set in chr15-extension_sidebery.css */
 @-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
 {
+  /* --------------------- add border (requires autohide-sidebar-collapsed-border) */
+  #root {
+    border-left: 1px solid color-mix(in srgb, var(--s-frame-bg) 95%, white);
+  }
   /* --------------------- adjust styles according to sidebar width */
+  /* -------------- hide scrollbar */
+  #root[data-pinned-tabs-position="panel"]:not(:hover) .ScrollBox > .scroll-container {
+    overflow: hidden;
+  }
   /* -------------- pinned tabs at start instead of center */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .PinnedTabsBar::before {
     margin: 0;
   }
-  /* -------------- set tree indent to 0 */
-  #root[data-tabs-tree-lvl-marks="true"]:not(:hover) {
-    --tabs-indent: 0px;
+  /* -------------- shrink tabs */
+  #root:not(:hover) .Tab[data-pin="false"] {
+    width: var(--autohide-sidebar-collapsed-no-border);
   }
-  /* -------------- hide scrollbar */
-  #root[data-pinned-tabs-position="panel"]:not(:hover) .ScrollBox > .scroll-container {
-    overflow: hidden;
+  /* -------------- remove tree indent */
+  #root[data-tabs-tree-lvl-marks="true"]:not(:hover) {
+    --tabs-indent: 0;
+  }
+  /* -------------- hide tree expandos and group counts */
+  /* #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .exp,
+  #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .child-count {
+    display: none;
+  } */
+  /* -------------- set group parent favicons to full opacity */
+  #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .fav > img {
+    opacity: 1;
   }
   /* -------------- move audio icon */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .Tab[data-pin="false"] .audio {
@@ -102,36 +89,20 @@
     height: calc(var(--tabs-pinned-audio-btn-height) - var(--tabs-inner-gap) / 3);
     border-radius: var(--tabs-border-radius);
     background-color: var(--frame-bg);
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / .2);
   }
   /* -------------- hide tab title */
   #root[data-pinned-tabs-position="panel"]:not(:hover) .Tab .title {
     display: none;
   }
+  /* -------------- hide level marks */
   #root[data-tabs-tree-lvl-marks="true"]:not(:hover) .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after {
     display: none;
-  }
-  /* -------------- hide tree expandos and group counts */
-  /*
-  #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .exp,
-  #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .child-count {
-    display: none;
-  }
-  /* -------------- set group parent favicons to full opacity */
-  #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .fav > img {
-    opacity: 1;
-  }
-  /* -------------- shrink tab border */
-  #root:not(:hover) .Tab[data-pin="false"] {
-    width: var(--autohide-sidebar-collapsed);
-  }
-  #root:not(:hover) .Tab[data-pin="false"] .body {
-    width: calc(100% - calc(var(--tabs-margin) * 4));
   }
   /* -------------- shrink new tab button */
   #root:not(:hover) .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] {
     align-self: flex-start;
-    width: calc(var(--fav-size) * 2);
+    width: var(--autohide-sidebar-collapsed-no-border);
   }
   #root:not(:hover) .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn {
     display: none;
@@ -143,8 +114,8 @@
     display: none;
   }
   #root:not(:hover) .NavigationBar.-top div[title="Settings"] {
-    width: calc(var(--autohide-sidebar-collapsed));
-    margin: 0px;
+    width: var(--autohide-sidebar-collapsed-no-border);
+    margin: 0;
   }
   #root:hover .NavigationBar.-top div[title="Settings"] {
     transition: width var(--d-slow) ease 1s;
