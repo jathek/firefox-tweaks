@@ -1,6 +1,6 @@
 :root {
-  --autohide-sidebar-collapsed-no-border: calc(var(--autohide-sidebar-collapsed-border) - 1px);
   --autohide-sidebar-collapsed-border: 48px; /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2) */
+  --autohide-sidebar-collapsed-no-border: calc(var(--autohide-sidebar-collapsed-border) - 1px);
   --autohide-sidebar-collapsed: var(--autohide-sidebar-collapsed-border);
   --autohide-sidebar-extended: 414px;
   --autohide-sidebar-toolbar-height: var(--uc-toolbar-height, 65px); /* variable from hide_titlebar.css */
