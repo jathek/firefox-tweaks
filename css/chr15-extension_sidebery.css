@@ -187,7 +187,6 @@
     height: calc(var(--nav-btn-height) + 12px);
     padding: 0px;
     cursor: default;
-    outline: 1px solid red;
   }
   #search_bar[data-showed="true"]::before {
     top: calc(6px + 2px);
