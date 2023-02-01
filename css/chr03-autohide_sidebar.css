@@ -1,6 +1,6 @@
 :root {
-  --autohide-sidebar-collapsed-no-border: 47px; /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2 - 1px) */
-  --autohide-sidebar-collapsed-border: calc(var(--autohide-sidebar-collapsed-no-border) + 1px);
+  --autohide-sidebar-collapsed-no-border: calc(var(--autohide-sidebar-collapsed-border) - 1px); /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2 - 1px) */
+  --autohide-sidebar-collapsed-border: 48px; /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2) */
   --autohide-sidebar-collapsed: var(--autohide-sidebar-collapsed-border);
   --autohide-sidebar-extended: 414px;
   --autohide-sidebar-toolbar-height: var(--uc-toolbar-height, 65px); /* variable from hide_titlebar.css */
@@ -19,7 +19,7 @@
   z-index: 1;
   transition: all 0.2s ease !important;
 }
-/* add border and change position to match */
+/* add border (requires autohide-sidebar-collapsed-border) */
 #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
   border-left: 1px solid color-mix(in srgb, var(--lwt-accent-color) 95%, white);
 }
