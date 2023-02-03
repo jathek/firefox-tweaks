@@ -15,7 +15,7 @@
   /* --------------------- add root variables */
   #root {
     --tabs-font: 13pt "Segoe UI";
-    --tabs-count-font: 0.65rem "Verdana";
+    --tabs-count-font: calc(var(--tabs-margin) * 3) "Verdana";
     --bookmarks-bookmark-font: 0.875rem "Segoe UI";
     --bookmarks-folder-font: 10pt "Segoe UI";
     --tabs-height: 42px;
@@ -254,22 +254,20 @@
     margin-right: 6px;
   }
 
-  /* --------------------- Variables used for styling of tree container strip and audible tabs */
-  /* .Tab{--tab-lvl: attr(data-lvl number,0);} - attr not supported in FF yet */
-  .Tab[data-lvl="0"], .pointer[data-lvl="0"] { --tab-lvl: 0; }
-  .Tab[data-lvl="1"], .pointer[data-lvl="1"] { --tab-lvl: 1; }
-  .Tab[data-lvl="2"], .pointer[data-lvl="2"] { --tab-lvl: 2; }
-  .Tab[data-lvl="3"], .pointer[data-lvl="3"] { --tab-lvl: 3; }
-  .Tab[data-lvl="4"], .pointer[data-lvl="4"] { --tab-lvl: 4; }
-  .Tab[data-lvl="5"], .pointer[data-lvl="5"] { --tab-lvl: 5; }
-  .Tab[data-lvl="6"], .pointer[data-lvl="6"] { --tab-lvl: 6; }
-  .Tab[data-lvl="7"], .pointer[data-lvl="7"] { --tab-lvl: 7; }
-  .Tab[data-lvl="8"], .pointer[data-lvl="8"] { --tab-lvl: 8; }
-  .Tab[data-lvl="9"], .pointer[data-lvl="9"] { --tab-lvl: 9; }
-  .Tab[data-lvl="10"], .pointer[data-lvl="10"] { --tab-lvl: 10; }
-  .Tab[data-lvl="11"], .pointer[data-lvl="11"] { --tab-lvl: 11; }
-
   /* --------------------- tab styles */
+  /* .Tab{--tree-lvl: attr(data-lvl number,0);} - attr not supported in FF yet */
+  .Tab[data-lvl="0"], .pointer[data-lvl="0"] { --tree-lvl: 0; }
+  .Tab[data-lvl="1"], .pointer[data-lvl="1"] { --tree-lvl: 1; }
+  .Tab[data-lvl="2"], .pointer[data-lvl="2"] { --tree-lvl: 2; }
+  .Tab[data-lvl="3"], .pointer[data-lvl="3"] { --tree-lvl: 3; }
+  .Tab[data-lvl="4"], .pointer[data-lvl="4"] { --tree-lvl: 4; }
+  .Tab[data-lvl="5"], .pointer[data-lvl="5"] { --tree-lvl: 5; }
+  .Tab[data-lvl="6"], .pointer[data-lvl="6"] { --tree-lvl: 6; }
+  .Tab[data-lvl="7"], .pointer[data-lvl="7"] { --tree-lvl: 7; }
+  .Tab[data-lvl="8"], .pointer[data-lvl="8"] { --tree-lvl: 8; }
+  .Tab[data-lvl="9"], .pointer[data-lvl="9"] { --tree-lvl: 9; }
+  .Tab[data-lvl="10"], .pointer[data-lvl="10"] { --tree-lvl: 10; }
+  .Tab[data-lvl="11"], .pointer[data-lvl="11"] { --tree-lvl: 11; }
   /* -------------- tab: change container strip into border */
   .Tab .ctx,
   .ClosedTabsSubPanel .closed-tab .container-mark {
@@ -372,7 +370,7 @@
           radial-gradient(circle, #000, #0000 5px);
     transition: opacity var(--d-slow), transform var(--d-slow), background-color var(--d-slow);
   }
-  /*
+  /* alternate methods
   1st - custom using mask:
     mask:
       radial-gradient(circle,#000 1px,#0000 2px),
@@ -406,11 +404,11 @@
   #root[data-color-scheme="dark"] .Tab:not([data-loading="true"])[data-pending="true"] .badge {
     filter: invert(100%) drop-shadow(0 0 1px black);
   }
-  /* -------------- tabs: custom idents */
-  /* .Tab:not([data-lvl="0"])::before {
+  /* -------------- tree indents: attempt at lines
+  .Tab:not([data-lvl="0"])::before {
     --tree-line-width: 24px;
     content: "";
-    min-width: calc(var(--tree-line-width) * var(--tab-lvl));
+    min-width: calc(var(--tree-line-width) * var(--tree-lvl));
     align-self: stretch;
     background-image: linear-gradient(
       90deg,
@@ -418,7 +416,7 @@
       white 11px,
       transparent 12px
     );
-    background-size: calc(var(--tree-line-width) * var(--tab-lvl)) 100%;
+    background-size: calc(var(--tree-line-width) * var(--tree-lvl)) 100%;
     background-position-x: 12px;
     background-repeat: repeat;
   }
@@ -440,38 +438,41 @@
     padding-left: 8px;
     margin-left: 0;
   } */
+  /* -------------- tree indents: set indent using new tab spacing vars */
   #root[data-tabs-tree-lvl-marks="true"] {
-    --tabs-indent: 18px;
-    --indent-modifier: 0;
+    --tabs-indent: calc(var(--tabs-margin) * 2 + var(--tabs-inner-gap) + 4px);
   }
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]) {
-    padding-left: calc(var(--tabs-indent) * var(--tab-lvl)) !important;
+    padding-left: calc(var(--tabs-indent) * var(--tree-lvl)); /* multiply indent by tree level */
   }
-  /* -------------- set height/width/style of tree level marker */
+  /* -------------- tree indents: set height/width/style */
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after,
   #root[data-tabs-tree-lvl-marks="true"] .ClosedTabsSubPanel .closed-tab:not([data-lvl="0"]) .body:after {
-    --indent-offset: 0;
     --tabs-lvl-opacity: 0.6;
-    top: calc(50% - 2px);
-    left: -8px;
-    width: 4px !important;
-    height: 4px !important;
-    border-radius: 2px;
+    --tree-mark-size: 4px;
+    --tree-mark-vert-offset: 0; /* for dots created to left of primary mark */
     display: block;
-    box-shadow: calc(var(--tabs-indent) * (-1 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-2 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-3 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-4 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-5 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-6 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-7 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-8 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-9 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg),
-                calc(var(--tabs-indent) * (-10 - var(--indent-modifier))) var(--indent-offset) 0 0 var(--frame-fg);
+    top: calc(50% - var(--tree-mark-size) / 2);
+    left: calc(-1 * var(--fav-size) / 2); /* mark starts at favicon edge of above tab */
+    width: var(--tree-mark-size);
+    height: var(--tree-mark-size);
+    border-radius: 2px;
+    background-color: var(--frame-fg);
+    box-shadow: calc(var(--tabs-indent) * -1) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -2) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -3) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -4) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -5) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -6) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -7) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -8) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -9) var(--tree-mark-vert-offset) 0 0 var(--frame-fg),
+                calc(var(--tabs-indent) * -10) var(--tree-mark-vert-offset) 0 0 var(--frame-fg);
   }
+  /* -------------- tree indents: primary mark is digit for lvls above 1 */
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]):not([data-lvl="1"]) .body::after {
-    --indent-offset: 3px;
-    top: calc(50% - 6px);
+    --tree-mark-vert-offset: calc(var(--tree-mark-size) - 1px);
+    top: calc(50% - var(--tabs-margin) * 3 / 2 - 1px);
     font: bold var(--tabs-count-font);
     color: var(--toolbar-fg);
     background-color: unset;
@@ -486,12 +487,16 @@
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"][data-lvl="8"] .body::after { content: "8"; }
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"][data-lvl="9"] .body::after { content: "9"; }
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"][data-lvl="10"] .body::after { content: "10"; }
-  /* -------------- change tab drag pointer */
+  /* -------------- dnd-pointer: indent for tree tabs */
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]:not([data-lvl="0"])::before,
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]:not([data-lvl="0"])::after {
-    transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 1 - 6px));
+    transform: translateX(calc(var(--tabs-indent) * var(--tree-lvl) - var(--tabs-margin) * 3));
   }
-  /* -------------- add level digit to tab drag pointer */
+  /* -------------- dnd-pointer: fix spacing after tab resizing */
+  .TabsPanel[data-pos="center"] ~ .pointer {
+    margin-top: calc(var(--tabs-margin) * 2);
+  }
+  /* -------------- dnd-pointer: add tree level digit */
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]::before {
     font: bold var(--tabs-count-font);
     color: var(--toolbar-fg);
@@ -507,48 +512,12 @@
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"][data-lvl="8"]::before { content: "8"; }
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"][data-lvl="9"]::before { content: "9"; }
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"][data-lvl="10"]::before { content: "10"; }
-  /*   .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"]:not([data-lvl="0"])::before,
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"]:not([data-lvl="0"])::after {
-    transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 2));
-  }
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="1"]::before,
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="1"]::after {
-    transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 1.5));
-  }
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="2"]::before,
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="2"]::after {
-    transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 1.8));
-  }
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="3"]::before,
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="3"]::after {
-    transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 1.9));
-  }
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="4"]::before,
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="4"]::after {
-    transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 1.95));
-  }
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="5"]::before,
-  .TabsPanel[data-pos="center"]
-    ~ .pointer[data-pointer="between"][data-lvl="5"]::after {
-    transform: translateX(calc(var(--tabs-indent) * var(--tab-lvl) * 1.97));
-  } */
   /* -------------- tabs: audio events */
   /* ------- audible tabs */
   .Tab[data-audible="true"] .fav::before,
   .Tab[data-muted="true"] .fav::before {
     --pulse-diameter: calc(var(--tabs-height) - var(--tabs-inner-gap));
-    --pulse-indent: calc(var(--tab-lvl) * var(--tabs-indent, 0));
+    --pulse-indent: calc(var(--tree-lvl) * var(--tabs-indent, 0));
     content: "";
     position: absolute;
     border-radius: 4px;
@@ -618,6 +587,7 @@
       opacity: 0;
     }
   }
+
   /* --------------------- misc styles */
   /* -------------- move confirm-popup to center */
   .popup-container {
