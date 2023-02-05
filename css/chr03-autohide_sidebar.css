@@ -49,7 +49,7 @@
 }
 
 /* --------------------- sidebery - vars set in chr15-extension_sidebery.css */
-@-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
+@-moz-document regexp("^moz-extension://\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}/sidebar/sidebar\.html$")
 {
   /* --------------------- add border (requires autohide-sidebar-collapsed-border) */
   #root {

@@ -9,8 +9,8 @@
   display: none;
 }
 /* --------------------- sidebery sidebar stylesheet */
-/* about:devtools-toolbox?id=%7B3c078156-979c-498b-8990-85f7987dd929%7D&type=extension */
-@-moz-document url("moz-extension://f93f4dcf-b3a0-4090-afca-85acf2572e3a/sidebar/sidebar.html")
+/* about:devtools-toolbox?id={3c078156-979c-498b-8990-85f7987dd929}&type=extension */
+@-moz-document regexp("^moz-extension://\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}/sidebar/sidebar\.html$")
 {
   /* --------------------- add root variables */
   #root {
