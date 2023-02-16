@@ -99,14 +99,6 @@
   #root[data-tabs-tree-lvl-marks="true"]:not(:hover) .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after {
     display: none;
   }
-  /* -------------- shrink new tab button */
-  #root:not(:hover) .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] {
-    align-self: flex-start;
-    width: var(--autohide-sidebar-collapsed-no-border);
-  }
-  #root:not(:hover) .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn {
-    display: none;
-  }
   /* -------------- isolate settings button and widen it */
   #root:not(:hover) .NavigationBar.-top .main-items,
   #root:not(:hover) .NavigationBar.-top div[title="Create snapshot"],
@@ -115,7 +107,8 @@
   }
   #root:not(:hover) .NavigationBar.-top div[title="Settings"] {
     width: var(--autohide-sidebar-collapsed-no-border);
-    margin: 0;
+    margin-right: 0;
+    margin-left: 0;
   }
   #root:hover .NavigationBar.-top div[title="Settings"] {
     transition: width var(--d-slow) ease 1s;
