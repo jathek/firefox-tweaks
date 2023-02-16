@@ -119,7 +119,7 @@
   }
   /* -------------- audio icon */
   .Tab .audio {
-    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+    filter: drop-shadow(0 0 1px var(--toolbar-fg));
   }
   .Tab[data-pin="false"] .audio {
     top: calc(var(--fav-size) / 2 - var(--tabs-inner-gap) / 2);
