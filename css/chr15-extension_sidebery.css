@@ -154,6 +154,13 @@
   .TabsPanel[data-pos="center"] ~ .pointer {
     margin-top: var(--tabs-margin);
   }
+  /* -------------- scrollbox: fix spacing in non-overflow scrollboxes after tab resizing */
+  .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .Tab:first-of-type {
+    margin-top: 0;
+  }
+  .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container {
+    padding-top: var(--tabs-margin);
+  }
 
   /* --------------------- box shadows */
   /* -------------- for nav buttons */
@@ -220,29 +227,67 @@
   /* --------------------- adjust new tab button and closed tab button */
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"],
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
-    height: var(--nav-btn-height);
-    width: calc(50%);
+    position: absolute;
+    bottom: var(--tabs-margin);
+    width: var(--tabs-height);
+    height: var(--tabs-height);
+    border-radius: 4px;
+    z-index: 20;
   }
+  /* -------------- use .new-tabs-btns as island w/ .bottom-bar on top */
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] {
-    flex-shrink: 0;
-    padding: 2px 2px 2px 1px;
-    align-self: flex-end;
+    right: calc(var(--tabs-margin) + 8px);
+    width: calc(var(--tabs-height) * 2 - var(--tabs-margin));
+    padding: var(--tabs-margin);
+    padding-left: var(--tabs-height);
+    background: color-mix(in srgb, var(--frame-bg) 95%, white);
+    box-shadow: 0 0 5px 2px color-mix(in srgb, var(--frame-fg) 20%, transparent);
   }
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
-    margin-top: calc(-1 * var(--nav-btn-height));
-    padding: 2px 1px 2px 2px;
+    right: calc(var(--tabs-height) + 8px);
   }
-  .TabsPanel .new-tab-btn,
+  /* ------- change position for non-overflowed panels */
+  .TabsPanel:has(.top-shadow[data-show="false"] + .bottom-shadow[data-show="false"]) .new-tab-btns[data-new-tab-bar-position="bottom"] {
+    right: var(--tabs-margin);
+  }
+  .TabsPanel:has(.top-shadow[data-show="false"] + .bottom-shadow[data-show="false"]) .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
+    right: var(--tabs-height);
+  }
+  /* -------------- misc cosmetic fixes */
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn {
+    min-width: var(--fav-size);
+  }
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tools {
+    padding: var(--tabs-margin);
+  }
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn,
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn {
     height: 100%;
   }
-  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tools {
-    padding: 0;
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"]::after {
+    background: none;
   }
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"]::before {
+    top: 0;
+    left: calc(var(--tabs-height) - var(--tabs-margin));
+    width: var(--tabs-height);
+  }
+  /* -------------- button border on hover */
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn:hover::before,
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn:active::before,
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn:hover,
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn:active {
+    box-shadow: var(--tabs-activated-shadow);
+  }
+  /* -------------- remove bottom space */
+  .ScrollBox .transition-box > .bottom-space {
+    display: none;
+  }
+  /* -------------- faviconize branch button in closed tabs list */
   .ClosedTabsSubPanel .closed-tab .branch-btn {
     width: var(--fav-size);
     height: var(--fav-size);
-    margin-right: 6px;
+    margin-right: var(--tabs-margin);
   }
 
   /* --------------------- tab styles */
