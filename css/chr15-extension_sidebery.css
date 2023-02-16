@@ -15,17 +15,18 @@
   /* --------------------- add root variables */
   #root {
     --tabs-font: 13pt "Segoe UI";
-    --tabs-count-font: calc(var(--tabs-margin) * 3) "Verdana";
+    --tabs-count-font: calc(var(--tabs-margin) * 1.5) "Verdana";
     --bookmarks-bookmark-font: 0.875rem "Segoe UI";
     --bookmarks-folder-font: 10pt "Segoe UI";
-    --tabs-height: 42px;
-    --tabs-pinned-height: calc(var(--tabs-height) - var(--tabs-margin) * 2);
-    --tabs-pinned-width: calc(var(--tabs-height) - var(--tabs-margin) * 2);
+    --tabs-height: calc(var(--fav-size) + var(--tabs-margin) * 2);
+    --tabs-pinned-height: var(--tabs-height);
+    --tabs-pinned-width: var(--tabs-height);
     --fav-size: 24px;
-    --tabs-margin: 3px;
-    --tabs-inner-gap: calc(var(--tabs-margin) * 2);
+    --tabs-margin: 6px;
+    --tabs-inner-gap: var(--tabs-margin);
     --tabs-audio-btn-height: 18px;
     --tabs-audio-btn-width: 18px;
+    --tree-mark-size: 4px;
     /* --selected-bg: rgb(255 108 151 / 0.8) !important; */
     /* --selected-border: var(--selected-bg) !important; */
   }
@@ -50,14 +51,10 @@
   }
 
   /* --------------------- tabs */
-  /* -------------- scroll container */
-  .ScrollBox .transition-box {
-    padding-top: var(--tabs-margin);
-  }
   /* -------------- pinned tabs bar */
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
-    gap: calc(var(--tabs-margin) * 2);
-    padding: calc(var(--tabs-margin) * 2) 0;
+    gap: var(--tabs-margin);
+    padding: var(--tabs-margin) 0;
     flex-shrink: 0;
   }
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar {
@@ -66,6 +63,7 @@
     overflow-y: hidden;
     scrollbar-width: none;
   }
+  /* ------- auto-center */
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar::before,
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar::after {
     content: '';
@@ -79,6 +77,10 @@
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar::after {
     position: static;
     right: 0;
+  }
+  /* ------- dnd-pointer: fix spacing after pinned tab resizing */
+  #root[data-pinned-tabs-position="panel"] .PinnedTabsBar .tab-wrapper::after {
+    left: calc(-1 * var(--tabs-margin) / 1.5);
   }
   /* -------------- tab */
   .Tab[data-pin="false"],
@@ -95,44 +97,29 @@
     padding-bottom: var(--tabs-margin);
     padding-left: calc(var(--tabs-indent) * 16);
   } */
-  .Tab[data-pin="true"] {
-    width: var(--tabs-pinned-width);
-    height: var(--tabs-pinned-height);
-    margin: 0;
-  }
   /* -------------- body */
   .Tab[data-pin="false"] .body,
   .ClosedTabsSubPanel .closed-tab .body {
-    top: var(--tabs-margin) !important;
-    left: calc(var(--tabs-margin) * 2) !important;
-    width: calc(100% - calc(var(--tabs-margin) * 4));
-    height: calc(100% - calc(var(--tabs-margin) * 2));
-  }
-  .Tab[data-pin="true"] .body {
-    width: 100%;
-    height: 100%;
+    left: var(--tabs-margin) !important;
+    width: calc(100% - var(--tabs-margin) * 2);
   }
   /* -------------- favicons */
   .Tab .fav,
-  .ClosedTabsSubPanel .closed-tab .fav {
+  .Tab .fav > .fav-icon,
+  .ClosedTabsSubPanel .closed-tab .fav,
+  .ClosedTabsSubPanel .closed-tab .fav > .fav-icon {
     width: var(--fav-size);
     height: var(--fav-size);
-/*     background: #FF000055; */
+    /* background: #FF000055; */
+    /* filter: drop-shadow(0 0 4px rgb(220 220 220 / 0.3)) !important; */
   }
   .Tab[data-pin="false"] .fav,
   .ClosedTabsSubPanel .closed-tab .fav {
     margin: var(--tabs-inner-gap);
   }
-  .Tab .fav > .fav-icon,
-  .ClosedTabsSubPanel .closed-tab .fav > .fav-icon {
-    /* image-rendering: optimizequality; */
-    width: var(--fav-size);
-    height: var(--fav-size);
-    /* filter: drop-shadow(0 0 4px rgb(220 220 220 / 0.3)) !important; */
-  }
   /* -------------- audio icon */
   .Tab .audio {
-    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+    filter: drop-shadow(0 0 1px var(--toolbar-fg));
   }
   .Tab[data-pin="false"] .audio {
     top: calc(var(--fav-size) / 2 - var(--tabs-inner-gap) / 2);
@@ -162,6 +149,10 @@
     right: var(--tabs-inner-gap);
     height: var(--fav-size);
     width: var(--fav-size);
+  }
+  /* -------------- dnd-pointer: fix spacing after tab resizing */
+  .TabsPanel[data-pos="center"] ~ .pointer {
+    margin-top: var(--tabs-margin);
   }
 
   /* --------------------- box shadows */
@@ -268,7 +259,7 @@
   .Tab[data-lvl="9"], .pointer[data-lvl="9"] { --tree-lvl: 9; }
   .Tab[data-lvl="10"], .pointer[data-lvl="10"] { --tree-lvl: 10; }
   .Tab[data-lvl="11"], .pointer[data-lvl="11"] { --tree-lvl: 11; }
-  /* -------------- tab: change container strip into border */
+  /* -------------- tabs: change container strip into border */
   .Tab .ctx,
   .ClosedTabsSubPanel .closed-tab .container-mark {
     --ctx-height: var(--tabs-height);
@@ -294,6 +285,55 @@
     left: 0 !important;
     width: calc(100%) !important;
     height: calc(100%) !important;
+  }
+  /* -------------- tabs: default browser style for updated tabs (blurball instead of blue dot) */
+  .Tab:not([data-loading="true"]) .fav-icon {
+    mask: unset !important;
+  }
+  .Tab .badge {
+    width: 12px;
+    height: 12px;
+    top: -6px;
+    left: -6px;
+    z-index: -1;
+    mask: radial-gradient(circle, #000 1px, #0000 2px),
+          radial-gradient(circle, #000, #0000 5px);
+    transition: opacity var(--d-slow), transform var(--d-slow), background-color var(--d-slow);
+  }
+  /* alternate methods
+  1st - custom using mask:
+    mask:
+      radial-gradient(circle,#000 1px,#0000 2px),
+      radial-gradient(circle,#000,#0000 5px);
+  2nd - custom using background:
+    background:
+      radial-gradient(circle,var(--tabs-update-badge-bg) 1px,#0000 2px),
+      radial-gradient(circle,var(--tabs-update-badge-bg),#0000 5px);
+  3rd - browser default (20200418):
+    background: url("chrome://browser/skin/tabbrowser/indicator-tab-attention.svg");
+  4th - browser default via css:
+    background:
+      radial-gradient(circle,rgb(0 254 255),rgb(0 254 255) 2px,#0000 2px),
+      radial-gradient(circle,rgb(0 200 215 / .6),rgb(0 200 215 / .6) 4px,#0000 4px),
+      radial-gradient(circle,rgb(0 200 215 / .2),rgb(0 200 215 / .2) 6px,#0000 6px);
+  5th - browser default w. smooth gradient:
+    background: radial-gradient(circle,rgb(0 254 255),rgb(0 200 215 / .6) 2px,rgb(0 200 215 / .2) 4px,#0000 6px);
+  */
+  /* -------------- tabs: hourglass icon for pending tabs */
+  .Tab[data-loading="true"] .badge,
+  .Tab:not([data-loading="true"])[data-pending="true"] .badge {
+    width: 14px;
+    height: 14px;
+    filter: drop-shadow(0 0 1px var(--toolbar-fg));
+    background-color: var(--toolbar-fg);
+    mask: url(chrome://browser/skin/tabbrowser/hourglass.svg) no-repeat center/contain;
+    border-radius: 0px;
+    z-index: initial;
+    transition: opacity var(--d-slow), transform var(--d-slow), background var(--d-slow);
+  }
+  #root[data-color-scheme="dark"] .Tab[data-loading="true"] .badge,
+  #root[data-color-scheme="dark"] .Tab:not([data-loading="true"])[data-pending="true"] .badge {
+    filter: invert(100%) drop-shadow(0 0 1px black);
   }
   /* -------------- tree: move group counts to left of favicon */
   .Tab .fav > .child-count {
@@ -355,55 +395,6 @@
   .Tab[data-parent="true"][data-folded="true"] .exp {
     top: calc(0% - 8px);
   }
-
-  /* -------------- tabs: default browser style for updated tabs (blurball instead of blue dot) */
-  .Tab:not([data-loading="true"]) .fav-icon {
-    mask: unset !important;
-  }
-  .Tab .badge {
-    width: 12px;
-    height: 12px;
-    top: -6px;
-    left: -6px;
-    z-index: -1;
-    mask: radial-gradient(circle, #000 1px, #0000 2px),
-          radial-gradient(circle, #000, #0000 5px);
-    transition: opacity var(--d-slow), transform var(--d-slow), background-color var(--d-slow);
-  }
-  /* alternate methods
-  1st - custom using mask:
-    mask:
-      radial-gradient(circle,#000 1px,#0000 2px),
-      radial-gradient(circle,#000,#0000 5px);
-  2nd - custom using background:
-    background:
-      radial-gradient(circle,var(--tabs-update-badge-bg) 1px,#0000 2px),
-      radial-gradient(circle,var(--tabs-update-badge-bg),#0000 5px);
-  3rd - browser default (20200418):
-    background: url("chrome://browser/skin/tabbrowser/indicator-tab-attention.svg");
-  4th - browser default via css:
-    background:
-      radial-gradient(circle,rgb(0 254 255),rgb(0 254 255) 2px,#0000 2px),
-      radial-gradient(circle,rgb(0 200 215 / .6),rgb(0 200 215 / .6) 4px,#0000 4px),
-      radial-gradient(circle,rgb(0 200 215 / .2),rgb(0 200 215 / .2) 6px,#0000 6px);
-  5th - browser default w. smooth gradient:
-    background: radial-gradient(circle,rgb(0 254 255),rgb(0 200 215 / .6) 2px,rgb(0 200 215 / .2) 4px,#0000 6px);
-  */
-  /* -------------- tabs: hourglass icon for pending tabs */
-  .Tab[data-loading="true"] .badge,
-  .Tab:not([data-loading="true"])[data-pending="true"] .badge {
-    width: 14px;
-    height: 14px;
-    filter: drop-shadow(0 0 1px white);
-    background: transparent url(chrome://browser/skin/tabbrowser/hourglass.svg) center/contain;
-    z-index: initial;
-    mask: unset;
-    transition: opacity var(--d-slow), transform var(--d-slow), background var(--d-slow);
-  }
-  #root[data-color-scheme="dark"] .Tab[data-loading="true"] .badge,
-  #root[data-color-scheme="dark"] .Tab:not([data-loading="true"])[data-pending="true"] .badge {
-    filter: invert(100%) drop-shadow(0 0 1px black);
-  }
   /* -------------- tree indents: attempt at lines
   .Tab:not([data-lvl="0"])::before {
     --tree-line-width: 24px;
@@ -440,7 +431,7 @@
   } */
   /* -------------- tree indents: set indent using new tab spacing vars */
   #root[data-tabs-tree-lvl-marks="true"] {
-    --tabs-indent: calc(var(--tabs-margin) * 2 + var(--tabs-inner-gap) + 4px);
+    --tabs-indent: calc(var(--tabs-margin) + var(--tabs-inner-gap) + 4px);
   }
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]) {
     padding-left: calc(var(--tabs-indent) * var(--tree-lvl)); /* multiply indent by tree level */
@@ -449,7 +440,6 @@
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after,
   #root[data-tabs-tree-lvl-marks="true"] .ClosedTabsSubPanel .closed-tab:not([data-lvl="0"]) .body:after {
     --tabs-lvl-opacity: 0.6;
-    --tree-mark-size: 4px;
     --tree-mark-vert-offset: 0; /* for dots created to left of primary mark */
     display: block;
     top: calc(50% - var(--tree-mark-size) / 2);
@@ -472,7 +462,7 @@
   /* -------------- tree indents: primary mark is digit for lvls above 1 */
   #root[data-tabs-tree-lvl-marks="true"] .Tab[data-pin="false"]:not([data-lvl="0"]):not([data-lvl="1"]) .body::after {
     --tree-mark-vert-offset: calc(var(--tree-mark-size) - 1px);
-    top: calc(50% - var(--tabs-margin) * 3 / 2 - 1px);
+    top: calc(50% - var(--tree-mark-size) - 1px);
     font: bold var(--tabs-count-font);
     color: var(--toolbar-fg);
     background-color: unset;
@@ -490,11 +480,7 @@
   /* -------------- dnd-pointer: indent for tree tabs */
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]:not([data-lvl="0"])::before,
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]:not([data-lvl="0"])::after {
-    transform: translateX(calc(var(--tabs-indent) * var(--tree-lvl) - var(--tabs-margin) * 3));
-  }
-  /* -------------- dnd-pointer: fix spacing after tab resizing */
-  .TabsPanel[data-pos="center"] ~ .pointer {
-    margin-top: calc(var(--tabs-margin) * 2);
+    transform: translateX(calc(var(--tabs-indent) * var(--tree-lvl) - var(--tabs-margin) - var(--tree-mark-size)));
   }
   /* -------------- dnd-pointer: add tree level digit */
   .TabsPanel[data-pos="center"] ~ .pointer[data-pointer="between"]::before {
