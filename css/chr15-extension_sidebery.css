@@ -281,9 +281,9 @@
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn:active {
     box-shadow: var(--tabs-activated-shadow);
   }
-  /* -------------- remove bottom space */
+  /* -------------- shrink bottom space */
   .ScrollBox .transition-box > .bottom-space {
-    display: none;
+    height: var(--tabs-margin);
   }
   /* -------------- faviconize branch button in closed tabs list */
   .ClosedTabsSubPanel .closed-tab .branch-btn {
