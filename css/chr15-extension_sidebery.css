@@ -242,7 +242,8 @@
     padding: var(--tabs-margin);
     padding-left: var(--tabs-height);
     background: color-mix(in srgb, var(--frame-bg) 95%, white);
-    box-shadow: 0 0 5px 2px color-mix(in srgb, var(--frame-fg) 20%, transparent);
+    box-shadow: 0 0 1px 1px color-mix(in srgb, var(--frame-fg) 20%, transparent);
+    outline: 1px solid color-mix(in srgb, var(--frame-fg) 20%, transparent);
   }
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
     right: calc(var(--tabs-height) + 8px);
