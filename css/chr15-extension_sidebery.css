@@ -18,7 +18,8 @@
     --tabs-count-font: calc(var(--tabs-margin) * 1.5) "Verdana";
     --bookmarks-bookmark-font: 0.875rem "Segoe UI";
     --bookmarks-folder-font: 10pt "Segoe UI";
-    --tabs-height: calc(var(--fav-size) + var(--tabs-margin) * 2);
+    /* set in sidebery directly, otherwise drag-n-drop breaks */
+    /*  --tabs-height: calc(var(--fav-size) + var(--tabs-margin) * 2; */
     --tabs-pinned-height: var(--tabs-height);
     --tabs-pinned-width: var(--tabs-height);
     --fav-size: 24px;
@@ -155,10 +156,10 @@
     margin-top: var(--tabs-margin);
   }
   /* -------------- scrollbox: fix spacing in non-overflow scrollboxes after tab resizing */
-  .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .Tab:first-of-type {
+  .TabsPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .Tab:first-of-type {
     margin-top: 0;
   }
-  .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container {
+  .TabsPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container {
     padding-top: var(--tabs-margin);
   }
 
@@ -241,7 +242,8 @@
     padding: var(--tabs-margin);
     padding-left: var(--tabs-height);
     background: color-mix(in srgb, var(--frame-bg) 95%, white);
-    box-shadow: 0 0 5px 2px color-mix(in srgb, var(--frame-fg) 20%, transparent);
+    box-shadow: 0 0 1px 1px color-mix(in srgb, var(--frame-fg) 20%, transparent);
+    outline: 1px solid color-mix(in srgb, var(--frame-fg) 20%, transparent);
   }
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
     right: calc(var(--tabs-height) + 8px);
@@ -279,9 +281,9 @@
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn:active {
     box-shadow: var(--tabs-activated-shadow);
   }
-  /* -------------- remove bottom space */
+  /* -------------- shrink bottom space */
   .ScrollBox .transition-box > .bottom-space {
-    display: none;
+    height: var(--tabs-margin);
   }
   /* -------------- faviconize branch button in closed tabs list */
   .ClosedTabsSubPanel .closed-tab .branch-btn {
@@ -547,7 +549,7 @@
   /* ------- audible tabs */
   .Tab[data-audible="true"] .fav::before,
   .Tab[data-muted="true"] .fav::before {
-    --pulse-diameter: calc(var(--tabs-height) - var(--tabs-inner-gap));
+    --pulse-diameter: var(--tabs-height);
     --pulse-indent: calc(var(--tree-lvl) * var(--tabs-indent, 0));
     content: "";
     position: absolute;
