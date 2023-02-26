@@ -549,7 +549,7 @@
   /* ------- audible tabs */
   .Tab[data-audible="true"] .fav::before,
   .Tab[data-muted="true"] .fav::before {
-    --pulse-diameter: calc(var(--tabs-height) - var(--tabs-inner-gap));
+    --pulse-diameter: var(--tabs-height);
     --pulse-indent: calc(var(--tree-lvl) * var(--tabs-indent, 0));
     content: "";
     position: absolute;
