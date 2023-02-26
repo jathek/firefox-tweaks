@@ -156,10 +156,10 @@
     margin-top: var(--tabs-margin);
   }
   /* -------------- scrollbox: fix spacing in non-overflow scrollboxes after tab resizing */
-  .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .Tab:first-of-type {
+  .TabsPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .Tab:first-of-type {
     margin-top: 0;
   }
-  .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container {
+  .TabsPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container {
     padding-top: var(--tabs-margin);
   }
 
