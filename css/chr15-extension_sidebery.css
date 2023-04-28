@@ -48,7 +48,7 @@
   }
   /* -------------- change scroll bar color to match theme */
   .ScrollBox > .scroll-container {
-    scrollbar-color: color-mix(in srgb, var(--ff-frame) 75%, white) color-mix(in srgb, var(--ff-frame) 90%, white) !important;
+    scrollbar-color: color-mix(in srgb, var(--frame-bg, #000) 75%, white) color-mix(in srgb, var(--frame-bg, #000) 95%, white) !important;
   }
 
   /* --------------------- tabs */
