@@ -22,7 +22,7 @@
     /*  --tabs-height: calc(var(--fav-size) + var(--tabs-margin) * 2; */
     --tabs-pinned-height: var(--tabs-height);
     --tabs-pinned-width: var(--tabs-height);
-    --fav-size: 24px;
+    --fav-size: calc(var(--tabs-height) - var(--tabs-margin) * 2);
     --tabs-margin: 6px;
     --tabs-inner-gap: var(--tabs-margin);
     --tabs-audio-btn-height: 18px;
@@ -658,5 +658,123 @@
   /* -------------- move confirm-popup to center */
   .popup-container {
     align-items: center;
+  }
+}
+/* --------------------- sidebery group page stylesheet */
+@-moz-document regexp("^moz-extension://\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}/sidebery/group.html.*")
+{
+  /* --------------------- add root variables */
+  #root {
+    --tabs-font: 13pt "Segoe UI";
+    --tabs-count-font: calc(var(--tabs-margin) * 1.5) "Verdana";
+    --bookmarks-bookmark-font: 0.875rem "Segoe UI";
+    --bookmarks-folder-font: 10pt "Segoe UI";
+    /* set in sidebery directly, otherwise drag-n-drop breaks */
+    --tabs-height: 36px;
+    --tabs-pinned-height: var(--tabs-height);
+    --tabs-pinned-width: var(--tabs-height);
+    --fav-size: calc(var(--tabs-height) - var(--tabs-margin) * 2);
+    --tabs-margin: 6px;
+    --tabs-inner-gap: var(--tabs-margin);
+    --tabs-audio-btn-height: 18px;
+    --tabs-audio-btn-width: 18px;
+    --tree-mark-size: 4px;
+  }
+  /* --------------------- tabs */
+  /* -------------- border radius */
+  #root[data-pin="true"] #pinned_tab,
+  #root[data-pin="true"] #pinned_tab #pinned_tab_bg,
+  #root .tab,
+  #root[data-layout="grid"] .tab .bg,
+  #root .new-tab {
+    border-radius: 4px;
+  }
+  #root[data-layout="list"] .tab .bg {
+    border-radius: 0px;
+  }
+  /* -------------- background opacity */
+  #root[data-pin="true"] #pinned_tab #pinned_tab_bg,
+  #root[data-layout="grid"] .tab .bg {
+    opacity: 0.45;
+    transition: opacity var(--d-norm);
+  }
+  #root[data-pin="true"] #pinned_tab:hover #pinned_tab_bg,
+  #root[data-layout="grid"] .tab:hover .bg {
+    opacity: 1;
+  }
+  /* -------------- title drop-shadow */
+  #root[data-pin="true"] #pinned_tab_title,
+  #root[data-pin="true"] #pinned_tab_url,
+  #root .tab .info {
+    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+  }
+  /* --------------------- tab favs */
+  /* -------------- size */
+  #root[data-layout="grid"] .tab .fav {
+    width: var(--fav-size);
+    height: var(--fav-size);
+  }
+  #root[data-layout="list"] .tab .fav,
+  #root[data-layout="list"] .tab .fav-placeholder {
+    top: calc(var(--fav-size) / 2);
+    left: calc(var(--fav-size) / 2);
+    width: var(--fav-size);
+    height: var(--fav-size);
+  }
+  #root[data-layout="list"] .tab .fav {
+    background-size: contain;
+  }
+  /* -------------- positioning */
+  #root[data-layout="grid"] .tab .fav {
+    left: var(--tabs-margin);
+    bottom: var(--tabs-margin);
+  }
+  /* --------------------- tab ctrl buttons */
+  /* -------------- size */
+  #root[data-layout="grid"] .ctrls .tab-btn,
+  #root[data-layout="list"] .ctrls .tab-btn {
+    width: var(--fav-size);
+    height: var(--fav-size);
+  }
+  /* -------------- positioning */
+  #root[data-layout="grid"] .ctrls {
+    position: absolute;
+    bottom: 0;
+    align-items: flex-end;
+    gap: var(--tabs-margin);
+  }
+  #root[data-layout="list"] .ctrls {
+    width: calc(var(--fav-size) * 3 + var(--fav-size) / 2 * 2);
+    margin-right: calc(var(--fav-size) / 2);
+    gap: calc(var(--fav-size) / 2);
+  }
+  #root[data-layout="grid"] .ctrls .tab-btn::before {
+    top: 0;
+    left: 0;
+    width: var(--fav-size);
+    height: var(--fav-size);
+    border-radius: 4px;
+  }
+  #root[data-layout="list"] .ctrls .tab-btn::before {
+    border-radius: 4px;
+  }
+  #root[data-layout="grid"] .ctrls .tab-btn:hover::before {
+    opacity: .25;
+  }
+  /* -------------- color */
+  .tab-btn.discard-btn svg,
+  .tab-btn.reload-btn svg,
+  .tab-btn.close-btn svg {
+    fill: var(--fill-color);
+    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+  }
+  .tab-btn.discard-btn {
+    --fill-color: var(--yellow-60, var(--status-active));
+  }
+  .tab-btn.reload-btn {
+    --fill-color: var(--blue-50, var(--status-active));
+  }
+  .tab-btn.close-btn {
+    --fill-color: var(--red-50, var(--status-err));
   }
 }
