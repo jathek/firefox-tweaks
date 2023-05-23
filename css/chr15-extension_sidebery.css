@@ -19,7 +19,7 @@
     --bookmarks-bookmark-font: 0.875rem "Segoe UI";
     --bookmarks-folder-font: 10pt "Segoe UI";
     /* set in sidebery directly, otherwise drag-n-drop breaks */
-    /*  --tabs-height: calc(var(--fav-size) + var(--tabs-margin) * 2; */
+    --tabs-height: 36px;
     --tabs-pinned-height: var(--tabs-height);
     --tabs-pinned-width: var(--tabs-height);
     --fav-size: calc(var(--tabs-height) - var(--tabs-margin) * 2);
