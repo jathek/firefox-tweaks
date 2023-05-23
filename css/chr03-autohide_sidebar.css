@@ -18,14 +18,17 @@
   min-width: unset;
   max-width: unset;
   z-index: 1;
-  transition: all 0.2s ease !important;
+  transition: width 0.2s ease 0s !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
 }
 /* -------------- expand on hover */
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]):hover,
-#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header,
-#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar {
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) #sidebar-header,
+#main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) #sidebar {
   width: var(--autohide-sidebar-extended) !important; /* size of panel while extended */
   /*   left: calc(100vw - var(--autohide-sidebar-extended)); */
+  transition: width 0.2s ease .8s !important;
 }
 /* -------------- hide sidebar splitter */
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] + #sidebar-splitter {
@@ -68,9 +71,32 @@
   #root:not(:hover) .Tab[data-pin="false"] {
     width: var(--autohide-sidebar-collapsed-no-border);
   }
+  #root:not(:hover) .Tab[data-pin="false"] .body,
+  #root:not(:hover) .ClosedTabsSubPanel .closed-tab .body {
+    left: var(--tabs-margin) !important;
+    width: calc(var(--autohide-sidebar-collapsed-no-border) - var(--tabs-margin) * 2);
+    min-width: calc(var(--autohide-sidebar-collapsed-no-border) - var(--tabs-margin) * 2);
+  }
   /* -------------- remove tree indent */
-  #root[data-tabs-tree-lvl-marks="true"]:not(:hover) {
+/*   #root[data-tabs-tree-lvl-marks="true"]:not(:hover) {
     --tabs-indent: 0;
+  } */
+/*   #root[data-tabs-tree-lvl-marks="true"] .Tab {
+    transition: width .2s ease .4s, padding-left .2s ease .4s !important;
+  }
+  #root[data-tabs-tree-lvl-marks="true"]:not(:hover) .Tab {
+    transition: width .2s ease 0s, padding-left .2s ease 0s !important;
+  } */
+  #root[data-tabs-tree-lvl-marks="true"] .Tab {
+    right: calc(var(--tabs-indent) * var(--tree-lvl));
+    transition: right 0.2s ease;
+  }
+  #root[data-tabs-tree-lvl-marks="true"]:hover .Tab {
+    right: 0px;
+    transition-delay: 0.8s;
+  }
+  #root[data-tabs-tree-lvl-marks="true"] .Tab > .body {
+    transition: width 0s ease .6s !important;
   }
   /* -------------- hide tree expandos and group counts */
   /* #root:not(:hover) .Tab[data-parent="true"][data-folded="true"] .exp,
@@ -92,8 +118,12 @@
     box-shadow: inset 0 0 0 1px rgb(0 0 0 / .2);
   }
   /* -------------- hide tab title */
+  #root[data-pinned-tabs-position="panel"] .Tab .title {
+    transition: visibility .2s ease .6s !important;
+  }
   #root[data-pinned-tabs-position="panel"]:not(:hover) .Tab .title {
-    display: none;
+    visibility: hidden;
+    transition: visibility 0s ease 0s !important;
   }
   /* -------------- hide level marks */
   #root[data-tabs-tree-lvl-marks="true"]:not(:hover) .Tab[data-pin="false"]:not([data-lvl="0"]) .body::after {
@@ -111,6 +141,6 @@
     margin-left: 0;
   }
   #root:hover .NavigationBar.-top div[title="Settings"] {
-    transition: width var(--d-slow) ease 1s;
+    transition: width var(--d-slow) ease .8s;
   }
 }
