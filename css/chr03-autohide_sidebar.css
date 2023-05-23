@@ -8,12 +8,8 @@
 /* -------------------------- auto-hide sidebar when sidebery is open */
 /* -------------- shrink sidebar by default */
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
-  /*   display: flex;
-  flex-direction: column;
-  overflow: hidden; */
   position: fixed;
   right: 0;
-  /*   left: calc(100vw - var(--autohide-sidebar-collapsed)); */
   width: var(--autohide-sidebar-collapsed) !important;
   min-width: unset;
   max-width: unset;
@@ -27,7 +23,6 @@
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) #sidebar-header,
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) #sidebar {
   width: var(--autohide-sidebar-extended) !important; /* size of panel while extended */
-  /*   left: calc(100vw - var(--autohide-sidebar-extended)); */
   transition: width 0.2s ease .8s !important;
 }
 /* -------------- hide sidebar splitter */
@@ -78,15 +73,6 @@
     min-width: calc(var(--autohide-sidebar-collapsed-no-border) - var(--tabs-margin) * 2);
   }
   /* -------------- remove tree indent */
-/*   #root[data-tabs-tree-lvl-marks="true"]:not(:hover) {
-    --tabs-indent: 0;
-  } */
-/*   #root[data-tabs-tree-lvl-marks="true"] .Tab {
-    transition: width .2s ease .4s, padding-left .2s ease .4s !important;
-  }
-  #root[data-tabs-tree-lvl-marks="true"]:not(:hover) .Tab {
-    transition: width .2s ease 0s, padding-left .2s ease 0s !important;
-  } */
   #root[data-tabs-tree-lvl-marks="true"] .Tab {
     right: calc(var(--tabs-indent) * var(--tree-lvl));
     transition: right 0.2s ease;
