@@ -294,18 +294,18 @@
 
   /* --------------------- tab styles */
   /* .Tab{--tree-lvl: attr(data-lvl number,0);} - attr not supported in FF yet */
-  .Tab[data-lvl="0"], .pointer[data-lvl="0"] { --tree-lvl: 0; }
-  .Tab[data-lvl="1"], .pointer[data-lvl="1"] { --tree-lvl: 1; }
-  .Tab[data-lvl="2"], .pointer[data-lvl="2"] { --tree-lvl: 2; }
-  .Tab[data-lvl="3"], .pointer[data-lvl="3"] { --tree-lvl: 3; }
-  .Tab[data-lvl="4"], .pointer[data-lvl="4"] { --tree-lvl: 4; }
-  .Tab[data-lvl="5"], .pointer[data-lvl="5"] { --tree-lvl: 5; }
-  .Tab[data-lvl="6"], .pointer[data-lvl="6"] { --tree-lvl: 6; }
-  .Tab[data-lvl="7"], .pointer[data-lvl="7"] { --tree-lvl: 7; }
-  .Tab[data-lvl="8"], .pointer[data-lvl="8"] { --tree-lvl: 8; }
-  .Tab[data-lvl="9"], .pointer[data-lvl="9"] { --tree-lvl: 9; }
-  .Tab[data-lvl="10"], .pointer[data-lvl="10"] { --tree-lvl: 10; }
-  .Tab[data-lvl="11"], .pointer[data-lvl="11"] { --tree-lvl: 11; }
+  .Tab[data-lvl="0"], .closed-tab[data-lvl="0"], .pointer[data-lvl="0"] { --tree-lvl: 0; }
+  .Tab[data-lvl="1"], .closed-tab[data-lvl="1"], .pointer[data-lvl="1"] { --tree-lvl: 1; }
+  .Tab[data-lvl="2"], .closed-tab[data-lvl="2"], .pointer[data-lvl="2"] { --tree-lvl: 2; }
+  .Tab[data-lvl="3"], .closed-tab[data-lvl="3"], .pointer[data-lvl="3"] { --tree-lvl: 3; }
+  .Tab[data-lvl="4"], .closed-tab[data-lvl="4"], .pointer[data-lvl="4"] { --tree-lvl: 4; }
+  .Tab[data-lvl="5"], .closed-tab[data-lvl="5"], .pointer[data-lvl="5"] { --tree-lvl: 5; }
+  .Tab[data-lvl="6"], .closed-tab[data-lvl="6"], .pointer[data-lvl="6"] { --tree-lvl: 6; }
+  .Tab[data-lvl="7"], .closed-tab[data-lvl="7"], .pointer[data-lvl="7"] { --tree-lvl: 7; }
+  .Tab[data-lvl="8"], .closed-tab[data-lvl="8"], .pointer[data-lvl="8"] { --tree-lvl: 8; }
+  .Tab[data-lvl="9"], .closed-tab[data-lvl="9"], .pointer[data-lvl="9"] { --tree-lvl: 9; }
+  .Tab[data-lvl="10"], .closed-tab[data-lvl="10"], .pointer[data-lvl="10"] { --tree-lvl: 10; }
+  .Tab[data-lvl="11"], .closed-tab[data-lvl="11"], .pointer[data-lvl="11"] { --tree-lvl: 11; }
   /* -------------- tabs: change container strip into border */
   .Tab .ctx,
   .ClosedTabsSubPanel .closed-tab .container-mark {
@@ -390,11 +390,6 @@
     text-align: right;
     width: var(--fav-size);
   }
-  /* -------------- tree: tab title */
-  .Tab .t-box,
-  .ClosedTabsSubPanel .closed-tab .t-box {
-    width: calc(100% - 50px);
-  }
   /* -------------- tree: tab title - active is bold */
   .Tab[data-active="true"] .title {
     --tabs-font: 12.5pt Segoe UI;
@@ -407,6 +402,44 @@
   /* -------------- tree: tab title - unread is italicized */
   .Tab[data-unread="true"] .title {
     font-style: italic;
+  }
+  /* -------------- tree: tab title - scroll */
+  /* ------- set t-box width and mask, declare title variables */
+  .Tab .t-box,
+  .ClosedTabsSubPanel .closed-tab .t-box {
+    --non-title-elem-width-scroll: calc(var(--tabs-margin) * 2 + var(--tabs-inner-gap) * 3 + var(--fav-size) + var(--tabs-indent) * var(--tree-lvl) + var(--scrollbar-size));
+    --non-title-elem-width: var(--non-title-elem-width-scroll);
+    --visible-title-width: calc(100vw - var(--non-title-elem-width));
+    width: var(--visible-title-width);
+    min-width: fit-content;
+    mask: linear-gradient(to right, #000 calc(var(--visible-title-width) - var(--tabs-inner-gap)), #0000 var(--visible-title-width)) !important;
+  }
+  /* ------- different non-title-elem-width for close button */
+  #root[data-tabs-close-btn="always"] .Tab .t-box,
+  #root[data-tabs-close-btn="hover"] .Tab:hover .t-box {
+    --close-button-width: var(--fav-size) + var(--tabs-inner-gap);
+    --non-title-elem-width-scroll: calc(var(--tabs-margin) * 2 + var(--tabs-inner-gap) * 3 + var(--fav-size) + var(--tabs-indent) * var(--tree-lvl) + var(--scrollbar-size) + var(--close-button-width));
+  }
+  /* ------- different non-title-elem-width for non-scrolling */
+  .TabsPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .Tab .t-box,
+  .ClosedTabsSubPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .closed-tab .t-box {
+    --non-title-elem-width: calc(var(--non-title-elem-width-scroll) - var(--scrollbar-size));
+  }
+  /* ------- title animation, declare title offset */
+  .Tab .t-box .title,
+  .ClosedTabsSubPanel .closed-tab .t-box .title {
+    --title-offset: calc(var(--visible-title-width) - 100%);
+    transition: margin-left 1.5s 0.25s ease;
+  }
+  /* ------- remove mask when hovered, not selected, and context menu is inactive */
+  .CtxMenu[data-active="false"] ~ .main-box .Tab[data-selected="false"]:hover .t-box,
+  .ClosedTabsSubPanel .closed-tab:hover .t-box {
+    mask: linear-gradient(to right, #000 var(--visible-title-width), #0000 var(--visible-title-width)) !important;
+  }
+  /* ------- offset title when hovered, not selected, and context menu is inactive */
+  .CtxMenu[data-active="false"] ~ .main-box .Tab[data-selected="false"]:hover .t-box .title,
+  .ClosedTabsSubPanel .closed-tab:hover .t-box .title {
+    margin-left: min(var(--title-offset), 0px);
   }
   /* -------------- tree: unread tab indicator is blurball */
   .Tab .unread-mark {
