@@ -334,17 +334,11 @@
     height: calc(100%) !important;
   }
   /* -------------- tabs: default browser style for updated tabs (blurball instead of blue dot) */
-  .Tab:not([data-loading="true"]) .fav-icon {
-    mask: unset !important;
-  }
-  .Tab .badge {
-    width: 12px;
-    height: 12px;
-    top: -6px;
-    left: -6px;
-    z-index: -1;
-    mask: radial-gradient(circle, #000 1px, #0000 2px),
-          radial-gradient(circle, #000, #0000 5px);
+  .nav-item .badge,
+  .Tab .badge,
+  .Notifications .notification::after {
+    mask: radial-gradient(circle, #000 1px, #0000 3px),
+          radial-gradient(circle, #000, #0000 6px);
     transition: opacity var(--d-slow), transform var(--d-slow), background-color var(--d-slow);
   }
   /* alternate methods
@@ -366,11 +360,54 @@
   5th - browser default w. smooth gradient:
     background: radial-gradient(circle,rgb(0 254 255),rgb(0 200 215 / .6) 2px,rgb(0 200 215 / .2) 4px,#0000 6px);
   */
+  /* -------------- tabs: unread tab indicator is blurball */
+/*   .Tab:not([data-loading="true"]) .fav-icon {
+    mask: unset !important;
+  } */
+  .Tab[data-unread="true"] .fav-icon {
+    mask: radial-gradient(circle at calc(2px) calc(100% - 2px),rgba(0,0,0,.141),rgba(0,0,0,.141) 4px,#000 5px,#000);
+  }
+  .Tab[data-unread="true"]:is([data-updated="true"],[data-pending="true"],[data-loading="ok"],[data-loading="err"]) .fav-icon {
+    mask:
+      radial-gradient(circle at calc(100% - 2px) calc(100% - 2px),rgba(0,0,0,.141),rgba(0,0,0,.141) 4px,#000 5px,#000),
+      radial-gradient(circle at calc(2px) calc(100% - 2px),rgba(0,0,0,.141),rgba(0,0,0,.141) 4px,#000 5px,#000);
+    mask-composite: intersect;
+  }
+  .Tab .unread-mark {
+    width: 6px;
+    height: 6px;
+    left: calc(var(--tabs-inner-gap) - 1px);
+    bottom: calc(var(--tabs-inner-gap) - 1px);
+  }
+  .Tab .unread-mark::before {
+    display: block;
+    border-radius: 50%;
+    border: 0 solid transparent;
+    width: 6px;
+    height: 6px;
+    opacity: 0;
+    transform: none;
+    mask: radial-gradient(circle, #000 1px, #0000 3px),
+          radial-gradient(circle, #000, #0000 6px);
+    transition: opacity var(--d-slow), transform var(--d-slow),
+      background-color var(--d-slow);
+  }
+  .Tab[data-unread="true"] .unread-mark::before {
+    opacity: 1;
+    transform: scale(1, 1);
+    background-color: white;
+  }
+  .Tab[data-unread="true"][data-discarded="true"] .unread-mark::before {
+    opacity: 0.32;
+  }
   /* -------------- tabs: hourglass icon for pending tabs */
   .Tab[data-loading="true"] .badge,
   .Tab:not([data-loading="true"])[data-pending="true"] .badge {
-    width: 14px;
-    height: 14px;
+    --badge-size: 12px;
+    width: var(--badge-size);
+    height: var(--badge-size);
+    bottom: calc(var(--badge-size) / 3 * -1);
+    right: calc(var(--badge-size) / 3 * -1);
     filter: drop-shadow(0 0 1px var(--toolbar-fg));
     background-color: var(--toolbar-fg);
     mask: url(chrome://browser/skin/tabbrowser/hourglass.svg) no-repeat center/contain;
@@ -440,32 +477,6 @@
   .CtxMenu[data-active="false"] ~ .main-box .Tab[data-selected="false"]:hover .t-box .title,
   .ClosedTabsSubPanel .closed-tab:hover .t-box .title {
     margin-left: min(var(--title-offset), 0px);
-  }
-  /* -------------- tree: unread tab indicator is blurball */
-  .Tab .unread-mark {
-    width: 12px;
-    height: 12px;
-  }
-  .Tab .unread-mark::before {
-    z-index: -1;
-    display: block;
-    border-radius: 50%;
-    border: 0 solid transparent;
-    width: 12px;
-    height: 12px;
-    opacity: 0;
-    transform: none;
-    mask: radial-gradient(circle, #000 1px, #0000 2px), radial-gradient(circle, #000, #0000 5px);
-    transition: opacity var(--d-slow), transform var(--d-slow),
-      background-color var(--d-slow);
-  }
-  .Tab[data-unread="true"] .unread-mark::before {
-    opacity: 1;
-    transform: scale(1, 1);
-    background-color: white;
-  }
-  .Tab[data-unread="true"][data-discarded="true"] .unread-mark::before {
-    opacity: 0.32;
   }
   /* -------------- tree: expando fixes (center it) */
   .Tab[data-parent="true"][data-folded] .exp {
