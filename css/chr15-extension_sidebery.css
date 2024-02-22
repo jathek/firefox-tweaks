@@ -1,3 +1,13 @@
+/* --------------------- set margin for in-page tab preview */
+:root {
+  --sdbr-tabs-height: 36px;
+  --sdbr-tabs-pinned-width: var(--sdbr-tabs-height);
+  --sdbr-tabs-margin: 6px;
+}
+#sdbr_preview_root {
+  margin-right: calc(var(--sdbr-tabs-margin) - 2px) !important;
+}
+
 /* --------------------- shrink sidebar splitter when sidebery is open and sidebar isn't autohidden */
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] + #sidebar-splitter {
   margin-inline: 0 0;
@@ -18,11 +28,11 @@
     --tabs-count-font: calc(var(--tabs-margin) * 1.5) "Verdana";
     --bookmarks-bookmark-font: 0.875rem "Segoe UI";
     --bookmarks-folder-font: 10pt "Segoe UI";
-    --tabs-height: 36px;
+    --tabs-height: var(--sdbr-tabs-height);
+    --tabs-pinned-width: var(--sdbr-tabs-pinned-width);
     --tabs-pinned-height: var(--tabs-height);
-    --tabs-pinned-width: var(--tabs-height);
     --fav-size: calc(var(--tabs-height) - var(--tabs-margin) * 2);
-    --tabs-margin: 6px;
+    --tabs-margin: var(--sdbr-tabs-margin);
     --tabs-inner-gap: var(--tabs-margin);
     --tabs-audio-btn-height: 18px;
     --tabs-audio-btn-width: 18px;
@@ -59,7 +69,7 @@
   /* ------- auto-center */
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar::before,
   #root[data-pinned-tabs-position="panel"] .PinnedTabsBar::after {
-    content: '';
+    content: "";
     display: inline-block;
     width: 0;
     opacity: 0;
@@ -154,7 +164,7 @@
     height: 6px;
     left: 0;
     bottom: -6px;
-    box-shadow: 0 -1px 0 0 rgb(0 0 0 / .071),0 -1px 6px 0 rgb(0 0 0 / .408);
+    box-shadow: 0 -1px 0 0 rgb(0 0 0 / 0.071), 0 -1px 6px 0 rgb(0 0 0 / 0.408);
     clip-path: inset(-6px 0 0 0);
     position: absolute;
   }
@@ -180,7 +190,7 @@
     bottom: 6px;
     width: 100%;
     height: 6px;
-    box-shadow: 0 1px 0 0 rgb(0 0 0 / .071),0 1px 6px 0 rgb(0 0 0 / .408);
+    box-shadow: 0 1px 0 0 rgb(0 0 0 / 0.071), 0 1px 6px 0 rgb(0 0 0 / 0.408);
     clip-path: inset(0 0 -6px 0);
     z-index: 200;
   }
@@ -243,7 +253,7 @@
   /* -------------- change opacity of island on hover (doesn't really work that well T__T)*/
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"],
   .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar {
-    opacity: .25;
+    opacity: 0.25;
   }
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"]:hover,
   .central-box:has(.BottomBar:hover) .new-tab-btns[data-new-tab-bar-position="bottom"],
@@ -287,7 +297,7 @@
   }
   /* -------------- new tab button: lower opacity without hover (matches other buttons) */
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn:not(:hover) svg {
-    opacity: .7;
+    opacity: 0.7;
   }
   /* -------------- shrink bottom space */
   .ScrollBox .transition-box > .bottom-space {
@@ -715,7 +725,7 @@
     border-radius: 4px;
   }
   #root[data-layout="grid"] .ctrls .tab-btn:hover::before {
-    opacity: .25;
+    opacity: 0.25;
   }
   /* -------------- color */
   .tab-btn.discard-btn svg,
