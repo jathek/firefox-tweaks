@@ -225,9 +225,10 @@
     transform: none;
   }
 
-  /* --------------------- adjust new tab button and closed tab button */
+  /* --------------------- use .new-tabs-btns as island w/ .BottomBar on top */
+  /* -------------- positioning (new tab, closed tabs, history, bookmarks) */
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"],
-  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar {
     position: absolute;
     bottom: var(--tabs-margin);
     width: var(--tabs-height);
@@ -235,36 +236,56 @@
     border-radius: 4px;
     z-index: 20;
   }
-  /* -------------- use .new-tabs-btns as island w/ .bottom-bar on top */
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] {
     right: calc(var(--tabs-margin) + 8px);
-    width: calc(var(--tabs-height) * 2 - var(--tabs-margin));
+    width: calc(var(--fav-size) * 4 + var(--tabs-margin) * 5);
+    justify-content: flex-end;
     padding: var(--tabs-margin);
     padding-left: var(--tabs-height);
     background: color-mix(in srgb, var(--frame-bg) 95%, white);
     box-shadow: 0 0 1px 1px color-mix(in srgb, var(--frame-fg) 20%, transparent);
     outline: 1px solid color-mix(in srgb, var(--frame-fg) 20%, transparent);
   }
-  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
-    right: calc(var(--tabs-height) + 8px);
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar {
+    width: calc(var(--fav-size) * 3 + var(--tabs-margin) * 2);
+    right: calc(var(--tabs-height) + 8px + var(--tabs-margin));
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--tabs-margin) 0;
   }
-  /* ------- change position for non-overflowed panels */
-  .TabsPanel:has(.top-shadow[data-show="false"] + .bottom-shadow[data-show="false"]) .new-tab-btns[data-new-tab-bar-position="bottom"] {
+  /* -------------- hide spacer for bottom bar */
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar-space {
+    display: none;
+  }
+  /* -------------- change opacity of island on hover (doesn't really work that well T__T)*/
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"],
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar {
+    opacity: .25;
+  }
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"]:hover,
+  .central-box:has(.BottomBar:hover) .new-tab-btns[data-new-tab-bar-position="bottom"],
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]:hover) + .BottomBar,
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar:hover {
+    opacity: 1;
+  }
+  /* -------------- change position for non-overflowed panels */
+/*   .TabsPanel:has(.top-shadow[data-show="false"] + .bottom-shadow[data-show="false"]) .new-tab-btns[data-new-tab-bar-position="bottom"] {
     right: var(--tabs-margin);
   }
-  .TabsPanel:has(.top-shadow[data-show="false"] + .bottom-shadow[data-show="false"]) .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar {
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]):has(.TabsPanel[data-pos="center"] .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"]) + .BottomBar {
     right: var(--tabs-height);
-  }
+  } */
   /* -------------- misc cosmetic fixes */
-  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn {
-    min-width: var(--fav-size);
-  }
-  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tools {
-    padding: var(--tabs-margin);
-  }
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn,
-  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn {
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar .tool-btn {
     height: 100%;
+    min-width: var(--fav-size);
+    max-width: var(--fav-size);
+  }
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar .tools {
+    padding: var(--tabs-margin);
+    width: calc(var(--fav-size) * 3 + var(--tabs-margin) * 5);
+    grid-gap: var(--tabs-margin);
   }
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"]::after {
     background: none;
@@ -277,9 +298,13 @@
   /* -------------- button border on hover */
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn:hover::before,
   .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn:active::before,
-  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn:hover,
-  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] + .bottom-bar .tool-btn:active {
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar .tool-btn:hover,
+  .panel-box:has(.new-tab-btns[data-new-tab-bar-position="bottom"]) + .BottomBar .tool-btn:active {
     box-shadow: var(--tabs-activated-shadow);
+  }
+  /* -------------- new tab button: lower opacity without hover (matches other buttons) */
+  .TabsPanel .new-tab-btns[data-new-tab-bar-position="bottom"] .new-tab-btn:not(:hover) svg {
+    opacity: .7;
   }
   /* -------------- shrink bottom space */
   .ScrollBox .transition-box > .bottom-space {
@@ -442,7 +467,7 @@
   }
   /* -------------- tree: tab title - scroll */
   /* ------- set t-box width and mask, declare title variables */
-  .Tab .t-box,
+/*   .Tab .t-box,
   .ClosedTabsSubPanel .closed-tab .t-box {
     --non-title-elem-width-scroll: calc(var(--tabs-margin) * 2 + var(--tabs-inner-gap) * 3 + var(--fav-size) + var(--tabs-indent) * var(--tree-lvl) + var(--scrollbar-size));
     --non-title-elem-width: var(--non-title-elem-width-scroll);
@@ -450,34 +475,34 @@
     width: var(--visible-title-width);
     min-width: fit-content;
     mask: linear-gradient(to right, #000 calc(var(--visible-title-width) - var(--tabs-inner-gap)), #0000 var(--visible-title-width)) !important;
-  }
+  } */
   /* ------- different non-title-elem-width for close button */
-  #root[data-tabs-close-btn="always"] .Tab .t-box,
+/*   #root[data-tabs-close-btn="always"] .Tab .t-box,
   #root[data-tabs-close-btn="hover"] .Tab:hover .t-box {
     --close-button-width: var(--fav-size) + var(--tabs-inner-gap);
     --non-title-elem-width-scroll: calc(var(--tabs-margin) * 2 + var(--tabs-inner-gap) * 3 + var(--fav-size) + var(--tabs-indent) * var(--tree-lvl) + var(--scrollbar-size) + var(--close-button-width));
-  }
+  } */
   /* ------- different non-title-elem-width for non-scrolling */
-  .TabsPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .Tab .t-box,
+/*   .TabsPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .Tab .t-box,
   .ClosedTabsSubPanel .top-shadow[data-show="false"] + .bottom-shadow[data-show="false"] + .scroll-container .closed-tab .t-box {
     --non-title-elem-width: calc(var(--non-title-elem-width-scroll) - var(--scrollbar-size));
-  }
+  } */
   /* ------- title animation, declare title offset */
-  .Tab .t-box .title,
+/*   .Tab .t-box .title,
   .ClosedTabsSubPanel .closed-tab .t-box .title {
     --title-offset: calc(var(--visible-title-width) - 100%);
     transition: margin-left 1.5s 0.25s ease;
-  }
+  } */
   /* ------- remove mask when hovered, not selected, and context menu is inactive */
-  .CtxMenu[data-active="false"] ~ .main-box .Tab[data-selected="false"]:hover .t-box,
+/*   .CtxMenu[data-active="false"] ~ .main-box .Tab[data-selected="false"]:hover .t-box,
   .ClosedTabsSubPanel .closed-tab:hover .t-box {
     mask: linear-gradient(to right, #000 var(--visible-title-width), #0000 var(--visible-title-width)) !important;
-  }
+  } */
   /* ------- offset title when hovered, not selected, and context menu is inactive */
-  .CtxMenu[data-active="false"] ~ .main-box .Tab[data-selected="false"]:hover .t-box .title,
+/*   .CtxMenu[data-active="false"] ~ .main-box .Tab[data-selected="false"]:hover .t-box .title,
   .ClosedTabsSubPanel .closed-tab:hover .t-box .title {
     margin-left: min(var(--title-offset), 0px);
-  }
+  } */
   /* -------------- tree: expando fixes (center it) */
   .Tab[data-parent="true"][data-folded] .exp {
     left: calc(0%);
