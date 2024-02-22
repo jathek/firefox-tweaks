@@ -1,16 +1,23 @@
 :root {
-  --autohide-sidebar-collapsed-border: calc(var(--autohide-sidebar-collapsed-no-border) + 1px);
-  --autohide-sidebar-collapsed-no-border: 48px; /* calc(var(--tabs-pinned-width) + var(--tabs-margin) * 2) */
-  --autohide-sidebar-collapsed: var(--autohide-sidebar-collapsed-border);
-  --autohide-sidebar-extended: 414px;
-  --autohide-sidebar-toolbar-height: var(--uc-toolbar-height, 32px); /* variable from hide_titlebar.css */
+  --ah-side-sdbr-tabs-height: var(--sdbr-tabs-height, 36px);
+  --ah-side-sdbr-tabs-pinned-width: var(--ah-side-sdbr-tabs-height);
+  --ah-side-sdbr-tabs-margin: var(--sdbr-tabs-margin, 6px);
+  --ah-side-collapsed-base: calc(var(--ah-side-sdbr-tabs-pinned-width) + var(--ah-side-sdbr-tabs-margin) * 2);
+  --ah-side-collapsed-base-with-border: calc(var(--ah-side-collapsed-base) + 1px);
+  --ah-side-collapsed: var(--ah-side-collapsed-base-with-border);
+  --ah-side-extended: 414px;
+  --ah-side-toolbar-height: var(--uc-toolbar-height, 32px); /* variable from hide_titlebar.css */
+}
+/* --------------------- set margin for in-page tab preview */
+body > #sdbr_preview_root {
+  margin-right: calc(var(--ah-side-sdbr-tabs-margin) + var(--ah-side-extended) - 2px - 8px - var(--ah-side-collapsed)) !important;
 }
 /* -------------------------- auto-hide sidebar when sidebery is open */
 /* -------------- shrink sidebar by default */
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) {
   position: fixed;
   right: 0;
-  width: var(--autohide-sidebar-collapsed) !important;
+  width: var(--ah-side-collapsed) !important;
   min-width: unset;
   max-width: unset;
   z-index: 1;
@@ -22,7 +29,7 @@
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]):hover,
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) #sidebar-header,
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) #sidebar {
-  width: var(--autohide-sidebar-extended) !important; /* size of panel while extended */
+  width: var(--ah-side-extended) !important; /* size of panel while extended */
   transition: width 0.2s ease .8s !important;
 }
 /* -------------- hide sidebar splitter */
@@ -31,7 +38,7 @@
 }
 /* -------------- reserve space for collapsed sidebar on browser right */
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) ~ #appcontent {
-  margin-right: var(--autohide-sidebar-collapsed);
+  margin-right: var(--ah-side-collapsed);
 }
 /* -------------- remove space for collapsed sidebar in fullscreen videos */
 #main-window[inFullscreen][inDOMFullscreen] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden]) ~ #appcontent {
@@ -39,7 +46,7 @@
 }
 /* -------------- set height to max minus toolbars by default */
 #main-window #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
-  height: calc(100vh - var(--autohide-sidebar-toolbar-height));
+  height: calc(100vh - var(--ah-side-toolbar-height));
 }
 /* -------------- set browser height to max when fullscreen */
 #main-window[inFullscreen] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
@@ -49,7 +56,7 @@
 /* --------------------- sidebery - vars set in chr15-extension_sidebery.css */
 @-moz-document regexp("^moz-extension://\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}/sidebar/sidebar\.html$")
 {
-  /* --------------------- add border (requires autohide-sidebar-collapsed-border) */
+  /* --------------------- add border (requires ah-side-collapsed-base-with-border) */
   #root {
     border-left: 1px solid color-mix(in srgb, var(--s-frame-bg) 95%, white);
   }
@@ -64,13 +71,13 @@
   }
   /* -------------- shrink tabs */
   #root:not(:hover) .Tab[data-pin="false"] {
-    width: var(--autohide-sidebar-collapsed-no-border);
+    width: var(--ah-side-collapsed-base);
   }
   #root:not(:hover) .Tab[data-pin="false"] .body,
   #root:not(:hover) .ClosedTabsSubPanel .closed-tab .body {
     left: var(--tabs-margin) !important;
-    width: calc(var(--autohide-sidebar-collapsed-no-border) - var(--tabs-margin) * 2);
-    min-width: calc(var(--autohide-sidebar-collapsed-no-border) - var(--tabs-margin) * 2);
+    width: calc(var(--ah-side-collapsed-base) - var(--tabs-margin) * 2);
+    min-width: calc(var(--ah-side-collapsed-base) - var(--tabs-margin) * 2);
   }
   /* -------------- remove tree indent */
   #root[data-tabs-tree-lvl-marks="true"] .Tab {
@@ -122,7 +129,7 @@
     display: none;
   }
   #root:not(:hover) .NavigationBar.-top div[title="Settings"] {
-    width: var(--autohide-sidebar-collapsed-no-border);
+    width: var(--ah-side-collapsed-base);
     margin-right: 0;
     margin-left: 0;
   }
