@@ -5,7 +5,8 @@
   --sdbr-tabs-margin: 6px;
 }
 #sdbr_preview_root {
-  margin-right: calc(var(--sdbr-tabs-margin) - 2px) !important;
+  top: calc(var(--sdbr-tabs-margin) - 2px) !important;
+  right: calc(var(--sdbr-tabs-margin) - 2px) !important;
 }
 
 /* --------------------- shrink sidebar splitter when sidebery is open and sidebar isn't autohidden */
