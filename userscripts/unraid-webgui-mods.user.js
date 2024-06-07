@@ -4,10 +4,6 @@
 // @version      2023.4.15
 // @description  unRAID
 // @author       jathek
-// @match        http://deepervisor.lan/*
-// @match        https://unraid.jathek.com/*
-// @match        https://unraid.nearcat.ch/*
-// @exclude      http://deepervisor.lan:8480/plugins/*
 // @icon         https://icons.duckduckgo.com/ip2/unraid.net.ico
 // @grant        none
 // ==/UserScript==
