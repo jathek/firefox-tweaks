@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         unRAID - ZFS Master SI
-// @namespace    https://github.com/jathek/
+// @namespace    https://github.com/jathek/firefox-tweaks
 // @author       jathek
-// @version      2025.1.30-a
+// @version      2025.1.30-b
 // @updateURL    https://github.com/jathek/firefox-tweaks/raw/main/userscripts/unraid-zfs-master-si.user.js
 // @downloadURL  https://github.com/jathek/firefox-tweaks/raw/main/userscripts/unraid-zfs-master-si.user.js
 // @description  convert zfs master units to SI
