@@ -2,7 +2,7 @@
 // @name         unRAID - ZFS Master SI
 // @namespace    https://github.com/jathek/firefox-tweaks
 // @author       jathek
-// @version      2025.1.30-b
+// @version      2025.10.21-a
 // @updateURL    https://github.com/jathek/firefox-tweaks/raw/main/userscripts/unraid-zfs-master-si.user.js
 // @downloadURL  https://github.com/jathek/firefox-tweaks/raw/main/userscripts/unraid-zfs-master-si.user.js
 // @description  convert zfs master units to SI
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function setBinarySize(sizeText) {
     const sizeValue = parseFloat(sizeText.match(/^[\d.]+/).at(-1));
     const sizeUnit = sizeText.match(/[a-zA-Z]+/).at(-1);
-    const newSize = (sizeValue * sizeConversionFactors[sizeUnit]).toPrecision(3);
+    const newSize = parseFloat((sizeValue * sizeConversionFactors[sizeUnit]).toPrecision(3));
     return `${newSize} ${sizeUnit.replace("i", "")}`;
   }
   function convertToSI(mutation) {
